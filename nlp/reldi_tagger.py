@@ -121,7 +121,8 @@ def tag_main(data):
     return tagged_docs
         
 def load_models(lang):
-    reldir = os.path.join('nlp', 'models', 'reldi_tagger')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    reldir = os.path.join(folder_path, 'models', 'reldi_tagger')
     trie = pickle.load(open(os.path.join(reldir, lang + '.marisa'), 'rb'))
     tagger = pycrfsuite.Tagger()
     tagger.open(os.path.join(reldir, lang + '.msd.model'))

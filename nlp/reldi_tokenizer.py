@@ -6,7 +6,8 @@ import sys
 
 import os
 
-reldipath = os.path.join('nlp', 'models', 'reldi_tokenizer')
+folder_path = os.path.dirname(os.path.realpath(__file__))
+reldipath = os.path.join(folder_path, 'models', 'reldi_tokenizer')
 
 def read_abbrevs(file):
   abbrevs={'B':[],'N':[],'S':[]}

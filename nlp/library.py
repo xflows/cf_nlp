@@ -783,7 +783,8 @@ def split_list(seq, size):
 
 
 def nlp_reldi_tagger(input_dict):
-    reldir = os.path.join('nlp', 'models', 'reldi_tagger')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    reldir = os.path.join(folder_path, 'models', 'reldi_tagger')
     tokens = input_dict['tokens']
     lang = input_dict['lang']
     lemmatize = False
@@ -797,7 +798,8 @@ def nlp_reldi_tagger(input_dict):
 
 
 def nlp_reldi_lemmatizer(input_dict):
-    reldir = os.path.join('nlp', 'models', 'reldi_tagger')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    reldir = os.path.join(folder_path, 'models', 'reldi_tagger')
     tokens = input_dict['tokens']
     lang = input_dict['lang']
     lemmatize = True
@@ -814,7 +816,8 @@ def nlp_diacritic_restoration(input_dict):
     tokens = input_dict['tokens']
     lang = input_dict['lang']
     flatten = input_dict['flatten']
-    lexicon=pickle.load(open(os.path.join('nlp', 'models', 'redi', 'wikitweetweb.'+lang+'.tm'), 'rb'))
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    lexicon=pickle.load(open(os.path.join(folder_path, 'models', 'redi', 'wikitweetweb.'+lang+'.tm'), 'rb'))
     all_docs = []
     for doc in tokens:
         restored_tokens = restore_diacritic(doc, lexicon)
@@ -1110,7 +1113,8 @@ def remove_stopwords(input_dict):
     elif lang == 'pt':
         stops = set(stopwords.words("portuguese"))
     elif lang == 'sl':
-        path = os.path.join('nlp', 'models', 'stopwords_slo.txt')
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
         with open(path) as f:
             stops = set([line.strip().decode('utf8').encode('utf8') for line in f])
     else:
@@ -1146,7 +1150,8 @@ def count_patterns(input_dict):
     wordlist = input_dict['custom'].split(',')
     wordlist = [word.strip() for word in wordlist]
     if mode == 'emojis':
-        path = os.path.join('nlp', 'models', 'emoji_dataset.csv')
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
         df_emojis = pd.read_csv(path, encoding="utf-8", delimiter=",")
         emoji_list = set(df_emojis['Emoji'].tolist())
     counts = []
@@ -1174,7 +1179,8 @@ def count_patterns(input_dict):
 def emoji_sentiment(input_dict):
     corpus = input_dict['corpus']
     emoji_dict = {}
-    path = os.path.join('nlp', 'models', 'emoji_dataset.csv')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
     df_emojis = pd.read_csv(path, delimiter=",", encoding="utf-8")
     for index, row in df_emojis.iterrows():
         occurrences = float(row['Occurrences'])
@@ -1280,7 +1286,8 @@ def gender_classification(input_dict):
     df = input_dict['dataframe']
     column = input_dict['column']
     corpus = df[column].tolist()
-    path = os.path.join('nlp', 'models', 'gender_classification', 'lr_clf_' + lang + '_gender_python2.pkl')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(folder_path, 'models', 'gender_classification', 'lr_clf_' + lang + '_gender_python2.pkl')
     sys.modules['gender_classification'] = genclass
     
     #get pos tags
@@ -1296,7 +1303,8 @@ def gender_classification(input_dict):
             tokens = process[mode](tokenizer,doc.decode('utf8'),lang)
             all_tokenized_docs.append(tokens)
         tokens = all_tokenized_docs
-        reldir = os.path.join('nlp', 'models', 'reldi_tagger')
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        reldir = os.path.join(folder_path, 'models', 'reldi_tagger')
         lemmatize = False
         processes=multiprocessing.cpu_count()
         tokens = split_list(tokens, processes)
@@ -1315,7 +1323,8 @@ def gender_classification(input_dict):
             tsents = [[(w.lower(), simplify_tag(t)) for (w, t) in sent] for sent in tsents if sent]
             pos_tags.train(tsents)
         elif lang == 'sl':
-            path = os.path.join('nlp', 'models', 'stopwords_slo.txt')
+            folder_path = os.path.dirname(os.path.realpath(__file__))
+            path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
             with open(path) as f:
                 stops = set([line.strip().decode('utf8').encode('utf8') for line in f])
         else:
