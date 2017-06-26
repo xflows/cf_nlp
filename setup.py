@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.0.4',
+    version='0.0.5',
     packages=['nlp'],
     include_package_data=True,
     license='MIT License',
@@ -36,7 +36,7 @@ setup(
         'pandas==0.20.1',
         'langid==1.1.6',
 		'tweepy==3.5.0',
-		'marisa-trie==0.74',
+		'marisa-trie==0.7.4',
 		'python-crfsuite==0.9',
 		'reldi==1.6'
     ]
