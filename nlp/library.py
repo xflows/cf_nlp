@@ -832,6 +832,8 @@ def nlp_reldi_parser(input_dict):
     lang = input_dict['lang']
     parser = Parser(lang)
     parser.authorize(user, passwd)
+    if type(corpus) is list:  
+        corpus = "\n".join(input_dict['corpus']).strip()
     result = json.loads(parser.tagLemmatiseParse(corpus.decode(coding).encode('utf8')))
 
     final = set()

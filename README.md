@@ -10,7 +10,15 @@ Currently, the project contains components for different corpus operations, basi
 
 ## Installation, documentation ##
 
-Please find installation instructions, examples and API reference on [Read the Docs](http://clowdflows.readthedocs.io/).
+Since three pickled models are too big for github, you have to download the following models manually from external links and add them to the cf_nlp/models/reldi_tagger subfolder in order to make Reldi tagger and Reldi lemmatizer work:
+
+* http://nlp.ffzg.hr/data/reldi/hr.lexicon.guesser
+* http://nlp.ffzg.hr/data/reldi/sr.lexicon.guesser
+* http://nlp.ffzg.hr/data/reldi/sl.lexicon.guesser
+
+Please note that because of package size limits the pypi packgage does not include the models, which needs to be added manually. This can be done by downloading the model folder from github (https://github.com/xflows/cf_nlp/tree/master/nlp/models). The three pickled models mentioned above need to be downloaded manually and added to the folder. 
+
+Please find other installation instructions, examples and API reference on [Read the Docs](http://clowdflows.readthedocs.io/).
 
 ## Note ##
 

@@ -9,8 +9,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.0.1',
-    packages=['cf_nlp'],
+    version='0.0.4',
+    packages=['nlp'],
     include_package_data=True,
     license='MIT License',
     description='ClowdFlows natural language processing module',
