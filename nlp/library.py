@@ -1121,7 +1121,8 @@ def remove_stopwords(input_dict):
     elif lang == 'pt':
         stops = set(stopwords.words("portuguese"))
     elif lang == 'sl':
-        path = os.path.join('workflows', 'nlp', 'models', 'stopwords_slo.txt')
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
         with open(path) as f:
             stops = set([unicode(line.strip().lower(), 'utf-8') for line in f])
     for doc in corpus:

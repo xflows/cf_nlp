@@ -45,7 +45,8 @@ def remove_stopwords(text, lang):
     elif lang == 'pt':
         stops = set(stopwords.words("portuguese"))
     elif lang == 'sl':
-        path = os.path.join('workflows', 'nlp', 'models', 'stopwords_slo.txt')
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
         with open(path) as f:
             stops = set([line.strip().decode('utf8').encode('utf8') for line in f])
     else:
@@ -204,7 +205,8 @@ def preprocess(df_data, lang, pos_tagger, sent_tokenizer):
 
 
 def createFeatures(df_data):
-    emoji_path = os.path.join('workflows', 'nlp', 'models', 'emoji_dataset.csv')
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    emoji_path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
     emoji_dict = get_emojis(emoji_path)
     emoji_list = emoji_dict.keys()
 
@@ -214,3 +216,4 @@ def createFeatures(df_data):
     df_data['sentiment'] = df_data['text_clean'].map(lambda x: get_sentiment(x, emoji_dict))
     df_data['number_of_character_floods'] = df_data['no_punctuation'].map(lambda x: countCharacterFlooding(x))
     return df_data
+    
