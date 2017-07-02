@@ -794,6 +794,8 @@ def nlp_reldi_tagger(input_dict):
     pool = multiprocessing.Pool()
     results = pool.map(tag_main, zip(tokens, repeat(lang), repeat(lemmatize)))
     pos_tags = [tweet for subseq in results for tweet in subseq]
+    pool.close()
+    pool.terminate()
     return {'pos_tags': pos_tags}
 
 
@@ -809,6 +811,8 @@ def nlp_reldi_lemmatizer(input_dict):
     pool = multiprocessing.Pool()
     results = pool.map(tag_main, zip(tokens, repeat(lang), repeat(lemmatize)))
     lemmas = [tweet for subseq in results for tweet in subseq]
+    pool.close()
+    pool.terminate()
     return {'lemmas': lemmas}
 
 
@@ -926,18 +930,18 @@ def streaming_tweetcat(input_dict, widget, stream=None):
             if state['seeds'] == None:
                 tweets, user_index, user_lang, state = lang_mode(state, user_index, ltw, langid_lang, user_lang, True)
                 state['seeds'] = seedw
+            elif not set(state['seeds']) <= set(seedw):
+                state['seeds'] = seedw
+                tweets, user_index, user_lang, state = lang_mode(state, user_index, ltw, langid_lang, user_lang)
             else:
                 tweets, user_index, user_lang, state = lang_mode(state, user_index, ltw, langid_lang, user_lang)
             swd.state = {'authors': user_index, 'state': state, 'user_lang': user_lang}
             swd.save()
 
         elif MODE=='GEO':  
-            timeout = time() + 20 * 1    
             l=StdOutListener()
-            auth=OAuthHandler(consumer_key, consumer_secret)
-            auth.set_access_token(access_token, access_token_secret)
-            stream=tweepy.Stream(auth,l)
-            stream.filter(locations=[MINLON,MINLAT,MAXLON,MAXLAT])
+            tweepy_stream=tweepy.Stream(auth,l)
+            tweepy_stream.filter(locations=[MINLON,MINLAT,MAXLON,MAXLAT])
             tweets = l.tweetList
 
         new_tweets = []
@@ -950,13 +954,14 @@ def streaming_tweetcat(input_dict, widget, stream=None):
         try:
             stream = Stream.objects.filter(workflow__widgets=widget)[0]
         except:
-            raise Exception('It appears no data was collected yet. Try it again in couple of minutes. Also, make sure stream is activated - if not, go to "your workflows" and activate it')
+            raise Exception('It appears no data was collected yet. Try it again in couple of minutes. Also, make sure stream is activated - if not, go to "Your workflows" and activate it.')
         tweet_data = StreamWidgetData.objects.filter(widget=widget,stream=stream)
         tweets = []
         if len(tweet_data) == 0:
-            raise Exception('It appears no data was collected yet. Try it again in couple of minutes. Also, make sure stream is activated - if not, go to "your workflows" and activate it')
+            raise Exception('It appears no data was collected yet. Try it again in couple of minutes. Also, make sure your Tweet API credentials are correct.')
         for tweet in tweet_data:
             tweet = tweet.value
+            tweet['text'] = unicode(tweet['text'], 'utf-8')
             tweets.append(tweet)
         df = pd.DataFrame(tweets)
         return {'df': df}
@@ -967,13 +972,18 @@ def load_corpus_from_csv(input_dict):
     separator = str(input_dict['separator'])
     if separator.startswith('\\'):
         separator = '\t'
-    data_iterator = pd.read_csv(input_dict['file'], delimiter=separator, chunksize=1000, index_col=0)
-    df_data = pd.DataFrame()
-    for sub_data in data_iterator:
-        df_data = pd.concat([df_data, sub_data], axis=0)
-        gc.collect()
-    print(df_data.columns.tolist())
-    print("Data shape:", df_data.shape)
+    try:
+        data_iterator = pd.read_csv(input_dict['file'], delimiter=separator, chunksize=1000, index_col=None, encoding = 'utf8')
+        df_data = pd.DataFrame()
+        for sub_data in data_iterator:
+            df_data = pd.concat([df_data, sub_data], axis=0)
+            gc.collect()
+    except:
+        raise Exception("Ups, we are having problem uploading your corpus. Please make sure it's encoded in utf-8.")
+    df_data = df_data.dropna(axis=1, how='all')
+    df_data = df_data.dropna(axis=0, how='all')
+    #print(df_data.columns.tolist())
+    #print("Data shape:", df_data.shape)
     return {'dataframe': df_data}
 
 
@@ -981,7 +991,6 @@ def select_corpus_attribute(input_dict):
     df = input_dict['dataframe']
     attribute = input_dict['attribute']
     column = df[attribute].tolist()
-    column = [unicode(doc, 'utf-8') for doc in column]
     return {'attribute': column}
 
 
@@ -1041,7 +1050,6 @@ def feature_union(input_dict):
             feature = ('feature' + str(i), Transformer(index=i))
             features.append(feature)
             dataset.append(np.transpose(np.array([instance])))
-
     weights_dict = {}
     if len(weights) > 1 and len(weights) == len(features):
         for i in range(len(weights)):
@@ -1113,16 +1121,13 @@ def remove_stopwords(input_dict):
     elif lang == 'pt':
         stops = set(stopwords.words("portuguese"))
     elif lang == 'sl':
-        folder_path = os.path.dirname(os.path.realpath(__file__))
-        path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
+        path = os.path.join('workflows', 'nlp', 'models', 'stopwords_slo.txt')
         with open(path) as f:
-            stops = set([line.strip().decode('utf8').encode('utf8') for line in f])
-    else:
-        return corpus
+            stops = set([unicode(line.strip().lower(), 'utf-8') for line in f])
     for doc in corpus:
         doc = [x.lower() for x in doc.split() if x.lower() not in stops]
         cleaned_docs.append(" ".join(doc))
-    return {'corpus': corpus}
+    return {'corpus': cleaned_docs}
 
 
 def remove_punctuation(input_dict):
@@ -1269,7 +1274,7 @@ def group_by_column(input_dict):
         end_dict = {}
         end_dict[chosen_column] = key
         for column in columns:
-            end_dict[column] = " ".join([str(x) for x in value[column]]).replace('\n', ' ')
+            end_dict[column] = " ".join([unicode(str(x), 'utf8') for x in value[column]]).replace('\n', ' ')
         df_list.append(end_dict)
     df_grouped = pd.DataFrame(df_list)
     return {'df':df_grouped}   
@@ -1294,24 +1299,6 @@ def gender_classification(input_dict):
     if lang == 'en':
         sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
         pos_tags = PerceptronTagger()
-    elif lang == 'sl':
-        mode = 'standard'
-        all_tokenized_docs = []
-        tokenizer = generate_tokenizer(lang)
-        process = {'standard':lambda x,y,z:sentence_split(tokenize(x,y),z),'nonstandard':lambda x,y,z:sentence_split_nonstd(tokenize(x,y),z)} 
-        for doc in corpus:
-            tokens = process[mode](tokenizer,doc.decode('utf8'),lang)
-            all_tokenized_docs.append(tokens)
-        tokens = all_tokenized_docs
-        folder_path = os.path.dirname(os.path.realpath(__file__))
-        reldir = os.path.join(folder_path, 'models', 'reldi_tagger')
-        lemmatize = False
-        processes=multiprocessing.cpu_count()
-        tokens = split_list(tokens, processes)
-        pool = multiprocessing.Pool()
-        results = pool.map(tag_main, zip(tokens, repeat(lang), repeat(lemmatize)))
-        pos_tags = [tweet for subseq in results for tweet in subseq]
-        sent_tokenizer = None
     else:
         pos_tags = PerceptronTagger(load=False)
         if lang == 'es':
@@ -1322,16 +1309,10 @@ def gender_classification(input_dict):
             tsents = floresta.tagged_sents()
             tsents = [[(w.lower(), simplify_tag(t)) for (w, t) in sent] for sent in tsents if sent]
             pos_tags.train(tsents)
-        elif lang == 'sl':
-            folder_path = os.path.dirname(os.path.realpath(__file__))
-            path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
-            with open(path) as f:
-                stops = set([line.strip().decode('utf8').encode('utf8') for line in f])
         else:
             sent_tokenizer = None
 
-    corpus = [unicode(doc, 'utf-8') for doc in corpus]
-    df_data = pd.DataFrame({column: corpus})
+    df_data = pd.DataFrame({'text': corpus})
 
     
     df_prep = preprocess(df_data, lang, pos_tags, sent_tokenizer)
