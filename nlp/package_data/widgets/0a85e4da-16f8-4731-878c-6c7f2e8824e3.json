@@ -78,24 +78,6 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
-      "name": "Hapax legomena", 
-      "uid": "", 
-      "value": "hapax_legomena", 
-      "abstract_input": "a721b27b-3576-44ab-8039-7f7827e6067e"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
-      "name": "Dis legomena", 
-      "uid": "", 
-      "value": "dis_legomena", 
-      "abstract_input": "a721b27b-3576-44ab-8039-7f7827e6067e"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
       "name": "Trigram collocations", 
       "uid": "27922e8e-9348-499f-906e-f51c90aa1d0f", 
       "value": "pmi_trigrams", 
@@ -132,9 +114,27 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
+      "name": "Hapax legomena", 
+      "uid": "9ca86893-039d-4824-bb63-3c89e3c8a111", 
+      "value": "hapax_legomena", 
+      "abstract_input": "a721b27b-3576-44ab-8039-7f7827e6067e"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
       "name": "Frequency", 
       "uid": "9ca86893-039d-4824-bb63-3c89e3c8a650", 
       "value": "frequency", 
+      "abstract_input": "a721b27b-3576-44ab-8039-7f7827e6067e"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Dis legomena", 
+      "uid": "d3124c05-f011-4aa7-9c54-c9a885a27d00", 
+      "value": "dis_legomena", 
       "abstract_input": "a721b27b-3576-44ab-8039-7f7827e6067e"
     }
   }, 
