@@ -73,17 +73,8 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
-      "name": "Slovenian", 
-      "uid": "", 
-      "value": "sl", 
-      "abstract_input": "8beabdea-b29b-402b-8783-60f4c887e676"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
       "name": "Croatian", 
-      "uid": "", 
+      "uid": "8beabdea-b29b-402b-8783-60f4c887e610", 
       "value": "hr", 
       "abstract_input": "8beabdea-b29b-402b-8783-60f4c887e676"
     }
@@ -92,8 +83,17 @@
     "model": "workflows.abstractoption", 
     "fields": {
       "name": "Serbian", 
-      "uid": "", 
+      "uid": "8beabdea-b29b-402b-8783-60f4c887e611", 
       "value": "sr", 
+      "abstract_input": "8beabdea-b29b-402b-8783-60f4c887e676"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Slovenian", 
+      "uid": "8beabdea-b29b-402b-8783-60f4c887e612", 
+      "value": "sl", 
       "abstract_input": "8beabdea-b29b-402b-8783-60f4c887e676"
     }
   }

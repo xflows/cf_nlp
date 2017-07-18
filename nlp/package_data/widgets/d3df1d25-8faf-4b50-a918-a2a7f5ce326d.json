@@ -10,7 +10,7 @@
       "interaction_view": "", 
       "has_progress_bar": false, 
       "image": "", 
-      "description": "", 
+      "description": "A widget for loading corpus from CSV (comma separated values) file. File needs to be in the 'UTF-8' format or the widget will throw an error. First line needs to contain names of the columns. CSV files can be easily created by saving an Excell sheet as CSV. CSV files sometimes use different separators than commas, such as ';' or tabs. In order to load files with these separators, you have to define the separator in the separator text field (Tab separator can be input as '\\t').", 
       "static_image": "Upload-icon.png", 
       "action": "load_corpus_from_csv", 
       "visualization_view": "", 

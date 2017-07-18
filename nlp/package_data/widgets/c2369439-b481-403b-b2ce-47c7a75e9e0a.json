@@ -73,15 +73,6 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
-      "name": "Slovenian", 
-      "uid": "", 
-      "value": "sl", 
-      "abstract_input": "e4d94a4d-ce02-44ff-8d60-fe9a9e6c22c4"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
       "name": "Spanish", 
       "uid": "1a10b4e0-540c-4dea-b784-29528f20ed80", 
       "value": "es", 
@@ -103,6 +94,15 @@
       "name": "Portuguese", 
       "uid": "d9c1b288-592c-43eb-992c-5ac3ea6f9432", 
       "value": "pt", 
+      "abstract_input": "e4d94a4d-ce02-44ff-8d60-fe9a9e6c22c4"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Slovenian", 
+      "uid": "d9c1b288-592c-43eb-992c-5ac3ea6f9464", 
+      "value": "sl", 
       "abstract_input": "e4d94a4d-ce02-44ff-8d60-fe9a9e6c22c4"
     }
   }

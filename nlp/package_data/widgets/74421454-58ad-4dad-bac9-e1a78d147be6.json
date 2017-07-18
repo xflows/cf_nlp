@@ -115,7 +115,7 @@
       "widget": "74421454-58ad-4dad-bac9-e1a78d147be6", 
       "name": "Seeds", 
       "short_name": "sd", 
-      "default": "seveda, torej, vendar, ampak, kaj, kajti, v\u010deraj, mogo\u010de, druga\u010de, verjetno, tudi, \u010deprav, ampak ", 
+      "default": "seveda, torej, vendar, ampak, kaj, kajti, v\u010deraj, mogo\u010de, druga\u010de, verjetno, tudi, \u010deprav, res, ker, jaz, \u010de, kdo, tole", 
       "description": "Seed words, separated by commas, used in language search mode", 
       "required": false, 
       "multi": false, 
