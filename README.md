@@ -1,4 +1,4 @@
-# TextFlows Core Module #
+# ClowdFlows NLP Module #
 
 
 A [ClowdFlows](https://github.com/xflows/clowdflows/) package, which contains widgets for natural language processing. The package can also be used with [ClowdFlows](https://github.com/xflows/clowdflows/) 2.0.
