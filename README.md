@@ -18,7 +18,7 @@ Since three pickled models are too big for github, you have to download the foll
 
 Please note that because of package size limits the pypi packgage does not include the models, which needs to be added manually. This can be done by downloading the model folder from github (https://github.com/xflows/cf_nlp/tree/master/nlp/models). The three pickled models mentioned above need to be downloaded manually and added to the folder. You can also download a wheel with all the models inside from:
 
-* http://kt.ijs.si/matej_martinc/cf_nlp-0.0.10-py2-none-any.whl
+* http://kt.ijs.si/matej_martinc/cf_nlp-0.0.14-py2-none-any.whl
 
 Please find other installation instructions, examples and API reference on [Read the Docs](http://clowdflows.readthedocs.io/).
 
