@@ -45,6 +45,40 @@
     "model": "workflows.abstractinput", 
     "fields": {
       "widget": "98ff0d64-1e09-475c-afc8-1aafe9d42b1b", 
+      "name": "Count for entire corpus", 
+      "short_name": "sum", 
+      "default": "", 
+      "description": "Counts the frequency of a pattern for entire corpus and not just for every document separately", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "checkbox", 
+      "variable": "sum_all", 
+      "parameter": true, 
+      "order": 4, 
+      "uid": "20ea3bac-7807-4f32-bfa7-f439a0c7b31c"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "98ff0d64-1e09-475c-afc8-1aafe9d42b1b", 
+      "name": "Raw frequency", 
+      "short_name": "raw", 
+      "default": "", 
+      "description": "Return raw counts and not relative frequencies", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "checkbox", 
+      "variable": "raw_frequency", 
+      "parameter": true, 
+      "order": 5, 
+      "uid": "2d4fa512-2ece-4a7d-b27d-a625d26810d4"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "98ff0d64-1e09-475c-afc8-1aafe9d42b1b", 
       "name": "Corpus", 
       "short_name": "cor", 
       "default": "", 
