@@ -964,6 +964,7 @@ def streaming_tweetcat(input_dict, widget, stream=None):
             tweet['text'] = unicode(tweet['text'], 'utf-8')
             tweets.append(tweet)
         df = pd.DataFrame(tweets)
+        print(df.shape)
         return {'df': df}
 
 
@@ -1155,12 +1156,15 @@ def count_patterns(input_dict):
     mode = input_dict['mode']
     wordlist = input_dict['custom'].split(',')
     wordlist = [word.strip() for word in wordlist]
+    sum_all = input_dict['sum_all']
+    raw_frequency = input_dict['raw_frequency']
     if mode == 'emojis':
         folder_path = os.path.dirname(os.path.realpath(__file__))
         path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
         df_emojis = pd.read_csv(path, encoding="utf-8", delimiter=",")
         emoji_list = set(df_emojis['Emoji'].tolist())
     counts = []
+    whole_length = 0
     for doc in corpus:
         doc_length = len(doc) 
         if doc_length == 0:
@@ -1178,8 +1182,14 @@ def count_patterns(input_dict):
             cnt = count(doc, emoji_list)
         else:
             cnt = count(doc, wordlist)
-        counts.append(float(cnt)/doc_length)
-    return {'counts': counts}
+        counts.append(float(cnt)/doc_length) if not raw_frequency and not sum_all else counts.append(cnt)
+        whole_length += doc_length
+    if not sum_all:
+        return {'counts': counts}
+    else:
+        if raw_frequency:
+            return {'counts': sum(counts)}
+        return {'counts': float(sum(counts))/whole_length}
 
 
 def emoji_sentiment(input_dict):

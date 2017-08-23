@@ -171,7 +171,7 @@ def corpus_to_csv(request,input_dict,output_dict,widget):
     destination = MEDIA_ROOT+'/'+str(request.user.id)+'/'+str(widget.id)+'.csv'
     ensure_dir(destination)
     df = input_dict['df']
-    df.to_csv(destination, encoding='utf-8', sep=',', index=False)
+    df.to_csv(destination, encoding='utf-8', sep=';', index=False)
     filename = str(request.user.id)+'/'+str(widget.id)+'.csv'
     output_dict['filename'] = filename
     return render(request, 'visualizations/string_to_file.html',{'widget':widget,'input_dict':input_dict,'output_dict':output_dict})
