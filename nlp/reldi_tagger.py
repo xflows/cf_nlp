@@ -91,11 +91,8 @@ def tag_main(data):
 
                 tags_proper = []
                 for token in sent:
-                    if ' ' in token:
-                        if len(token) == 1:
-                            tags_proper.append(' ')
-                        else:
-                            tags_proper.append(token)
+                    if ' ' in token  or '\t' in token or '\n' in token:
+                        tags_proper.append(' ')
                     else:
                         tags_proper.append(tags[tag_counter])
                     tag_counter += 1
@@ -104,17 +101,14 @@ def tag_main(data):
                 tags = tag_lemmatise_sent(sent, trie, tagger, lemmatiser)
                 tags_proper = []
                 for token in sent:
-                    if ' ' in token:
-                        if len(token) == 1:
-                            tags_proper.append((' ',' ', ' '))
-                        else:
-                            tags_proper.append((token, token, token))
+                    if ' ' in token or '\t' in token or '\n' in token:
+                        tags_proper.append((' ',' ', ' '))
                     else:
                         tags_proper.append((token, tags[tag_counter][0], tags[tag_counter][1]))
                     tag_counter += 1
                 tagged_sents.append(tags_proper)
         if not lemmatize:
-            tagged_sents = " ".join([pos for sentence in tagged_sents for word, pos in sentence if word != ' '])
+            tagged_sents = " ".join([pos for sentence in tagged_sents for word, pos in sentence if word not in [' ', '\t', '\n']])
         else:
             tagged_sents = " ".join([lemma for sentence in tagged_sents for word, pos, lemma in sentence if word != ' '])
         tagged_docs.append(tagged_sents)

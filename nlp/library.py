@@ -964,7 +964,6 @@ def streaming_tweetcat(input_dict, widget, stream=None):
             tweet['text'] = unicode(tweet['text'], 'utf-8')
             tweets.append(tweet)
         df = pd.DataFrame(tweets)
-        print(df.shape)
         return {'df': df}
 
 
