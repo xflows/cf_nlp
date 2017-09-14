@@ -1,0 +1,90 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "25c283b6-fa7d-44aa-9452-a3ccb4972285", 
+      "is_streaming": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "This widget is used for extracting true and predicted labels from the dataframe and returns a list of true and predicted labels. The output of this widget is compatible with the classification statistics widget from the 'performance evaluation' package which can be used for calculating different accuracy statistics.\r\n", 
+      "static_image": "", 
+      "action": "extract_true_and_predicted_labels", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "windows_queue": false, 
+      "order": 1, 
+      "name": "Extract true and predicted labels"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "25c283b6-fa7d-44aa-9452-a3ccb4972285", 
+      "name": "Predicted values", 
+      "short_name": "col", 
+      "default": "", 
+      "description": "Name of the column containing predicted values", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "predicted_values", 
+      "parameter": true, 
+      "order": 2, 
+      "uid": "14e9d598-54fe-4635-82db-062fd2795b4b"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "25c283b6-fa7d-44aa-9452-a3ccb4972285", 
+      "name": "True values", 
+      "short_name": "out", 
+      "default": "", 
+      "description": "Name of the column containing true values", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "true_values", 
+      "parameter": true, 
+      "order": 1, 
+      "uid": "5ea965b6-feb5-4b04-b85f-2f093aab5710"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "25c283b6-fa7d-44aa-9452-a3ccb4972285", 
+      "name": "Dataframe", 
+      "short_name": "df", 
+      "default": "", 
+      "description": "Corpus in the form of Pandas dataframe", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "dataframe", 
+      "parameter": false, 
+      "order": 3, 
+      "uid": "837c64a4-c22f-4082-8c57-1beb95fb905b"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "25c283b6-fa7d-44aa-9452-a3ccb4972285", 
+      "name": "Labels", 
+      "short_name": "lbl", 
+      "description": "List of true and predicted labels", 
+      "variable": "labels", 
+      "order": 1, 
+      "uid": "d9ba5360-f23e-4651-a283-cc242f118561"
+    }
+  }
+]

@@ -45,6 +45,23 @@
     "model": "workflows.abstractinput", 
     "fields": {
       "widget": "02fa24e1-6875-4007-8b90-70e6b72e20d5", 
+      "name": "Output column name", 
+      "short_name": "out", 
+      "default": "gender", 
+      "description": "Name of the output column containing gender labels", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "output_name", 
+      "parameter": true, 
+      "order": 1, 
+      "uid": "5be8a027-3e52-49db-a308-3480a916e1a4"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "02fa24e1-6875-4007-8b90-70e6b72e20d5", 
       "name": "Dataframe", 
       "short_name": "df", 
       "default": "", 
