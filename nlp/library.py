@@ -1300,6 +1300,7 @@ def gender_classification(input_dict):
     lang = input_dict['lang']
     df = input_dict['dataframe']
     column = input_dict['column']
+    output_name = input_dict['output_name']
     corpus = df[column].tolist()
     folder_path = os.path.dirname(os.path.realpath(__file__))
     path = os.path.join(folder_path, 'models', 'gender_classification', 'lr_clf_' + lang + '_gender_python2.pkl')
@@ -1333,9 +1334,16 @@ def gender_classification(input_dict):
     clf = joblib.load(path)
     y_pred_gender = clf.predict(X)
 
-    df_results = pd.DataFrame({"gender": y_pred_gender})
+    df_results = pd.DataFrame({output_name: y_pred_gender})
     return {'df': pd.concat([df, df_results], axis=1)}
 
+def extract_true_and_predicted_labels(input_dict):
+    df = input_dict['dataframe']
+    true_values = input_dict['true_values']
+    predicted_values = input_dict['predicted_values']
+    true_values = df[true_values].tolist()
+    predicted_values = df[predicted_values].tolist()
+    return {'labels': [true_values, predicted_values]}
 
 
 
