@@ -75,10 +75,7 @@ def tag_main(data, trie, tagger, lemmatiser):
     sys.setdefaultencoding('UTF8')
     docs, lang, lemmatize = data
     tagged_docs=[]
-    doc_counter = 0
     for tokens in docs:
-        doc_counter += 1
-        print(doc_counter)
         tagged_sents = []
         for s in tokens:
             sent = []
