@@ -1,0 +1,107 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "This widget return sentiment of the text. Sentiment can either be positive, negative or neutral. It takes dataframe as an input and it outputs a dataframe with an additional column containing sentiment.\r\n", 
+      "static_image": "", 
+      "action": "italian_sentiment_analysis", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Italian sentiment analysis"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "name": "Dataframe", 
+      "short_name": "df", 
+      "default": "", 
+      "description": "Corpus in the form of Pandas dataframe", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "dataframe", 
+      "parameter": false, 
+      "order": 4, 
+      "uid": "1847c631-567e-4e57-b7db-be8b04a6a548"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "name": "Output column name", 
+      "short_name": "out", 
+      "default": "sentiment", 
+      "description": "Name of the output column containing sentiment labels", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "output_name", 
+      "parameter": true, 
+      "order": 2, 
+      "uid": "1af7f087-dee0-4b7c-8110-afd11ee02e2f"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "name": "Text Column", 
+      "short_name": "col", 
+      "default": "text", 
+      "description": "Name of the column in the dataframe that contains the text which sentiment you wish to analyse", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "column", 
+      "parameter": true, 
+      "order": 3, 
+      "uid": "a1bc8bf4-fc72-4b97-9a53-f822225ba58c"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "name": "Password", 
+      "short_name": "pas", 
+      "default": "", 
+      "description": "Password", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "password", 
+      "parameter": true, 
+      "order": 1, 
+      "uid": "b06096a7-c892-4225-bdd7-704a69a8a0a8"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "fec9a0c4-3b1d-4ab2-897e-998ee6af287a", 
+      "name": "Dataframe", 
+      "short_name": "df", 
+      "description": "Corpus in the form of Pandas dataframe", 
+      "variable": "df", 
+      "order": 1, 
+      "uid": "ae8de263-443f-4f6e-b2bd-26075439f71d"
+    }
+  }
+]

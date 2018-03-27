@@ -29,6 +29,7 @@ import numpy as np
 from sklearn.externals import joblib
 import sys
 import gender_classification as genclass
+import sentiment_analysis as sentclass
 
 webservices_totrtale_url = "http://172.20.0.154/totrtale"
 webservice_def_ex_url = "http://172.20.0.154/definition"
@@ -1336,6 +1337,37 @@ def gender_classification(input_dict):
 
     df_results = pd.DataFrame({output_name: y_pred_gender})
     return {'df': pd.concat([df, df_results], axis=1)}
+
+
+def italian_sentiment_analysis(input_dict):
+    from sentiment_analysis import preprocess, createFeatures
+    df = input_dict['dataframe']
+    column = input_dict['column']
+    output_name = input_dict['output_name']
+    password = '7pKtPguy'
+    token =  input_dict['password'].strip()
+    if password != token:
+        raise ValueError('Wrong password!')
+    corpus = df[column].tolist()
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(folder_path, 'models', 'sentiment_analysis', 'lr_clf_sentiment_python2.pkl')
+    sys.modules['sentiment_analysis'] = sentclass
+    
+    df_data = pd.DataFrame({'text': corpus})
+
+    
+    df_prep = preprocess(df_data)
+    df_data = createFeatures(df_prep)
+    
+    X = df_data
+    
+    clf = joblib.load(path)
+    y_pred_gender = clf.predict(X)
+
+    df_results = pd.DataFrame({output_name: y_pred_gender})
+    return {'df': pd.concat([df, df_results], axis=1)}
+
+
 
 def extract_true_and_predicted_labels(input_dict):
     df = input_dict['dataframe']
