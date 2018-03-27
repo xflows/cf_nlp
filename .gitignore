@@ -7,3 +7,6 @@ build
 .project
 .pydevproject
 .idea/
+nlp/models/reldi_tagger/sl.lexicon.guesser
+nlp/models/reldi_tagger/hr.lexicon.guesser
+nlp/models/reldi_tagger/sr.lexicon.guesser

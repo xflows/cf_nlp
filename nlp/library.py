@@ -749,7 +749,7 @@ def definition_sentences2(input_dict):
 from reldi.parser import Parser
 from redi import restore_diacritic
 from reldi_tokenizer import generate_tokenizer, sentence_split, sentence_split_nonstd, tokenize
-from reldi_tagger import tag_main
+from reldi_tagger import tag_main, load_models
 import json
 
 def nlp_reldi_tokenizer(input_dict):
@@ -789,15 +789,9 @@ def nlp_reldi_tagger(input_dict):
     tokens = input_dict['tokens']
     lang = input_dict['lang']
     lemmatize = False
-    processes=multiprocessing.cpu_count()
-    tokens = split_list(tokens, processes)
-    
-    pool = multiprocessing.Pool()
-    results = pool.map(tag_main, zip(tokens, repeat(lang), repeat(lemmatize)))
-    pos_tags = [tweet for subseq in results for tweet in subseq]
-    pool.close()
-    pool.terminate()
-    return {'pos_tags': pos_tags}
+    trie, tagger, lemmatiser = load_models(lang)
+    results = tag_main((tokens, lang, lemmatize), trie, tagger, lemmatiser)
+    return {'pos_tags': results}
 
 
 def nlp_reldi_lemmatizer(input_dict):
@@ -806,15 +800,9 @@ def nlp_reldi_lemmatizer(input_dict):
     tokens = input_dict['tokens']
     lang = input_dict['lang']
     lemmatize = True
-    processes=multiprocessing.cpu_count()
-    tokens = split_list(tokens, processes)
-    
-    pool = multiprocessing.Pool()
-    results = pool.map(tag_main, zip(tokens, repeat(lang), repeat(lemmatize)))
-    lemmas = [tweet for subseq in results for tweet in subseq]
-    pool.close()
-    pool.terminate()
-    return {'lemmas': lemmas}
+    trie, tagger, lemmatiser = load_models(lang)
+    results = tag_main((tokens, lang, lemmatize), trie, tagger, lemmatiser)
+    return {'lemmas': results}
 
 
 def nlp_diacritic_restoration(input_dict):
@@ -992,7 +980,14 @@ def select_corpus_attribute(input_dict):
     df = input_dict['dataframe']
     attribute = input_dict['attribute']
     column = df[attribute].tolist()
-    return {'attribute': column}
+    l = []
+    for doc in column:
+        try:
+            doc = str(doc).encode('utf-8')
+        except:
+            pass
+        l.append(doc)
+    return {'attribute': l}
 
 
 def tfidf_tokenizer(text):

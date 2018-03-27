@@ -70,13 +70,15 @@ def apply_rule(token, rule, msd):
     return lemma
 
 
-def tag_main(data):
+def tag_main(data, trie, tagger, lemmatiser):
     reload(sys)  # Reload does the trick!
     sys.setdefaultencoding('UTF8')
     docs, lang, lemmatize = data
-    trie, tagger, lemmatiser = load_models(lang)
     tagged_docs=[]
+    doc_counter = 0
     for tokens in docs:
+        doc_counter += 1
+        print(doc_counter)
         tagged_sents = []
         for s in tokens:
             sent = []
