@@ -969,8 +969,7 @@ def load_corpus_from_csv(input_dict):
             gc.collect()
     except:
         raise Exception("Ups, we are having problem uploading your corpus. Please make sure it's encoded in utf-8.")
-    df_data = df_data.dropna(axis=1, how='all')
-    df_data = df_data.dropna(axis=0, how='all')
+    df_data = df_data.dropna()
     #print(df_data.columns.tolist())
     #print("Data shape:", df_data.shape)
     return {'dataframe': df_data}
@@ -980,14 +979,7 @@ def select_corpus_attribute(input_dict):
     df = input_dict['dataframe']
     attribute = input_dict['attribute']
     column = df[attribute].tolist()
-    l = []
-    for doc in column:
-        try:
-            doc = str(doc).encode('utf-8')
-        except:
-            pass
-        l.append(doc)
-    return {'attribute': l}
+    return {'attribute': column}
 
 
 def tfidf_tokenizer(text):
@@ -1039,6 +1031,7 @@ def feature_union(input_dict):
         try:
             vectorizer = instance['vectorizer']
             data = instance['data']
+            print(data)
             dataset.append(data)
             feature = ('feature' + str(i), pipeline.Pipeline([('t' + str(i), Transformer(index=i)), ('f' + str(i), vectorizer)]))
             features.append(feature)
@@ -1344,6 +1337,7 @@ def italian_sentiment_analysis(input_dict):
     if password != token:
         raise ValueError('Wrong password!')
     corpus = df[column].tolist()
+    print(corpus[:10])
     folder_path = os.path.dirname(os.path.realpath(__file__))
     path = os.path.join(folder_path, 'models', 'sentiment_analysis', 'lr_clf_sentiment_python2.pkl')
     sys.modules['sentiment_analysis'] = sentclass
