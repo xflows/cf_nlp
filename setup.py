@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.0.18',
+    version='0.0.19',
     packages=['nlp'],
     include_package_data=True,
     license='MIT License',
