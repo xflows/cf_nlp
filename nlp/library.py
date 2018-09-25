@@ -29,6 +29,7 @@ import numpy as np
 from sklearn.externals import joblib
 import sys
 import gender_classification as genclass
+import language_variety as varclass
 import sentiment_analysis as sentclass
 
 webservices_totrtale_url = "http://172.20.0.154/totrtale"
@@ -1327,6 +1328,29 @@ def gender_classification(input_dict):
     return {'df': pd.concat([df, df_results], axis=1)}
 
 
+
+def language_variety_classification(input_dict):
+    from language_variety import predict
+    lang = input_dict['lang']
+    df_old = input_dict['dataframe']
+    column = input_dict['column']
+    output_name = input_dict['output_name']
+    df_new = df_old[[column]]
+
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    weights_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_weights.hdf5')
+    data_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_data.pk')
+    sys.modules['language_variety'] = varclass
+    
+    y_pred, tags_to_idx = predict(df_new, column, lang, weights_path, data_path)
+    y_pred = [tags_to_idx[pred] for pred in y_pred]
+    df_old.reset_index(drop=True, inplace=True)
+
+    df_results = pd.DataFrame({output_name: y_pred})
+    return {'df': pd.concat([df_old, df_results], axis=1)}
+
+
+
 def italian_sentiment_analysis(input_dict):
     from sentiment_analysis import preprocess, createFeatures
     df = input_dict['dataframe']
@@ -1337,7 +1361,6 @@ def italian_sentiment_analysis(input_dict):
     if password != token:
         raise ValueError('Wrong password!')
     corpus = df[column].tolist()
-    print(corpus[:10])
     folder_path = os.path.dirname(os.path.realpath(__file__))
     path = os.path.join(folder_path, 'models', 'sentiment_analysis', 'lr_clf_sentiment_python2.pkl')
     sys.modules['sentiment_analysis'] = sentclass
