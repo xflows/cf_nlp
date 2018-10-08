@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.0.19',
+    version='0.1.0',
     packages=['nlp'],
     include_package_data=True,
     license='MIT License',
@@ -38,6 +38,8 @@ setup(
 		'tweepy==3.5.0',
 		'marisa-trie==0.7.4',
 		'python-crfsuite==0.9',
-		'reldi==1.6'
+		'reldi==1.6',
+        'tensorflow==1.10.0',
+        'keras==2.2.2'
     ]
 )
