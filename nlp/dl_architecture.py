@@ -102,7 +102,6 @@ def charConv(sequence_input, max_seq_length, vocab_size):
     l_bn1 = BatchNormalization()(l_cov1)
     l_pool1 = MaxPooling1D(40)(l_bn1)
     l_dropout = Dropout(0.4)(l_pool1)
-
     l_flat = Flatten()(l_dropout)
     return l_flat
 
@@ -125,6 +124,7 @@ def charConvGeneral(sequence_input, max_seq_length, vocab_size):
     l_dropout = Dropout(0.4)(l_pool1)
     l_flat = Flatten()(l_dropout)
     return l_flat
+
 
 
 
