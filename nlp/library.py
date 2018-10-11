@@ -1338,8 +1338,8 @@ def language_variety_classification(input_dict):
     df_new = df_old[[column]]
 
     folder_path = os.path.dirname(os.path.realpath(__file__))
-    weights_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_weights_best.hdf5')
-    data_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_data_best.pk')
+    weights_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_weights.hdf5')
+    data_path = os.path.join(folder_path, 'models', 'language_variety', 'model_' + lang + '_data.pk')
     sys.modules['language_variety'] = varclass
     
     y_pred, tags_to_idx = predict(df_new, column, lang, weights_path, data_path)

@@ -18,14 +18,10 @@ def build_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size):
     char_sequence_input = Input(shape=(charvec_shape,), dtype='int32')
     char_dense = charConv(char_sequence_input, charvec_shape, char_vocab_size)
     inputs.append(char_sequence_input)
+
     mergedconv = concatenate([feature_union, char_dense])
     dense_all = Dense(256, activation='relu')(mergedconv)
-    #normal = BatchNormalization()(dense_all)
     dropout = Dropout(0.4)(dense_all)
-    #encoded = Dense(128, activation='relu')(dropout)
-    #dropout = Dropout(0.3)(encoded)
-    #decoded = Dense(256, activation='relu')(dropout)
-    #dropout = Dropout(0.3)(decoded)
     dense3 = Dense(num_classes, activation='softmax')(dropout)
     model = Model(inputs=inputs, outputs=dense3)
     model.summary()
@@ -48,6 +44,7 @@ def build_general_model(unigrams_shape, num_classes, charvec_shape, char_vocab_s
     char_sequence_input = Input(shape=(charvec_shape,), dtype='int32')
     char_dense = charConvGeneral(char_sequence_input, charvec_shape, char_vocab_size)
     inputs.append(char_sequence_input)
+    
     mergedconv = concatenate([feature_union, char_dense])
     dense_all = Dense(256, activation='relu')(mergedconv)
     dropout = Dropout(0.4)(dense_all)
@@ -124,8 +121,3 @@ def charConvGeneral(sequence_input, max_seq_length, vocab_size):
     l_dropout = Dropout(0.4)(l_pool1)
     l_flat = Flatten()(l_dropout)
     return l_flat
-
-
-
-
-

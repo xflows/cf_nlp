@@ -88,13 +88,3 @@ def predict(data_test, column, lang, weights_path, data_path):
         predictions = model.predict([feature_union_test, charvec_test]).argmax(axis=-1)
     return predictions, tags_to_idx
     
-
-
-
-
-
-
-
-
-
-
