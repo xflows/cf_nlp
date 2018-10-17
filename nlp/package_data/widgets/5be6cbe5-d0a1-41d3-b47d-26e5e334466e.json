@@ -1,0 +1,57 @@
+[
+  {
+    "model": "workflows.abstractwidget",
+    "fields": {
+      "name": "NLTK Tokenizer",
+      "action": "nltk_tokenizer",
+      "wsdl": "",
+      "wsdl_method": "",
+      "description": "Tokenizer for English text from the nltk library (Treebank tokenizer). It takes a list of sentences as an input and outputs a dataframe with two columns, one for the original sentences and one for the tokenized sentences.",
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c",
+      "visualization_view": "",
+      "streaming_visualization_view": "",
+      "interactive": false,
+      "interaction_view": "",
+      "post_interact_action": "",
+      "image": "",
+      "treeview_image": "",
+      "static_image": "token.png",
+      "has_progress_bar": false,
+      "is_streaming": false,
+      "order": 1,
+      "uid": "5be6cbe5-d0a1-41d3-b47d-26e5e334466e",
+      "package": "nlp",
+      "always_save_results": false,
+      "windows_queue": false
+    }
+  },
+  {
+    "model": "workflows.abstractinput",
+    "fields": {
+      "name": "Column",
+      "short_name": "cor",
+      "description": "A list of strings to tokenize.",
+      "variable": "attribute",
+      "widget": "5be6cbe5-d0a1-41d3-b47d-26e5e334466e",
+      "required": true,
+      "parameter": false,
+      "multi": false,
+      "default": "",
+      "parameter_type": null,
+      "order": 1,
+      "uid": "6e5993bf-3ff1-460a-9056-d3024afd217e"
+    }
+  },
+  {
+    "model": "workflows.abstractoutput",
+    "fields": {
+      "name": "Corpus",
+      "short_name": "cor",
+      "description": "A corpus with original and tokenized sentences.",
+      "variable": "tokens",
+      "widget": "5be6cbe5-d0a1-41d3-b47d-26e5e334466e",
+      "order": 1,
+      "uid": "4d596ad3-8cad-47b9-961a-b930773ec124"
+    }
+  }
+]

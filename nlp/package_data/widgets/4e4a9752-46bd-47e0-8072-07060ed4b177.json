@@ -1,0 +1,57 @@
+[
+  {
+    "model": "workflows.abstractwidget",
+    "fields": {
+      "name": "NLTK Tagger",
+      "action": "nltk_pos_tagger",
+      "wsdl": "",
+      "wsdl_method": "",
+      "description": "POS tagger for English based on the recommended tagger from the NLTK library. It takes as input a dataframe with original and tokenized sentences and returns the same dataframe with an additional column which holds the tags of the tokens.",
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c",
+      "visualization_view": "",
+      "streaming_visualization_view": "",
+      "interactive": false,
+      "interaction_view": "",
+      "post_interact_action": "",
+      "image": "",
+      "treeview_image": "",
+      "static_image": "tag_pos.png",
+      "has_progress_bar": false,
+      "is_streaming": false,
+      "order": 1,
+      "uid": "4e4a9752-46bd-47e0-8072-07060ed4b177",
+      "package": "nlp",
+      "always_save_results": false,
+      "windows_queue": false
+    }
+  },
+  {
+    "model": "workflows.abstractinput",
+    "fields": {
+      "name": "Corpus",
+      "short_name": "cor",
+      "description": "Tokenized Corpus",
+      "variable": "tokens",
+      "widget": "4e4a9752-46bd-47e0-8072-07060ed4b177",
+      "required": true,
+      "parameter": false,
+      "multi": false,
+      "default": "",
+      "parameter_type": null,
+      "order": 1,
+      "uid": "6328be82-48f9-43c2-af1a-98a903350f7e"
+    }
+  },
+  {
+    "model": "workflows.abstractoutput",
+    "fields": {
+      "name": "tagged_sents",
+      "short_name": "cor",
+      "description": "Dataframe with original sentences, tokenized sentences and tags",
+      "variable": "tagged_sents",
+      "widget": "4e4a9752-46bd-47e0-8072-07060ed4b177",
+      "order": 1,
+      "uid": "81350028-bd2e-4b19-9695-c7f962feb68b"
+    }
+  }
+]
