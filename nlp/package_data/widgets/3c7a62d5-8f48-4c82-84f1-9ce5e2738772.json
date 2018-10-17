@@ -1,170 +1,171 @@
 [
   {
-    "model": "workflows.abstractwidget", 
+    "model": "workflows.abstractwidget",
     "fields": {
-      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
-      "treeview_image": "", 
-      "uid": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "windows_queue": false, 
-      "package": "nlp", 
-      "interaction_view": "", 
-      "has_progress_bar": false, 
-      "image": "", 
-      "description": "This widget predicts the language variety of the text. It takes dataframe as an input and it outputs a dataframe with an additional column containing gender predictions.\r\n\r\nIt can distinguish between following languages/language groups according to the value of the chosen 'language' option:\r\n\r\n-'all': Distinguishes between Farsi (label fa), French (label fr), Malay and Indonesian (label idmy), Portuguese (label pt),  \r\n  Slavic (label slavic) and Spanish (label es)\r\n- 'Farsi':  Distinguishes between 'Persian' (label fa-IR) and 'Dari' (label fa-AF)\r\n- 'French':  Distinguishes between Hexagonal (label fr-FR) and Canadian French (label fr-CA)\r\n- 'Malay and Indonesian':  Distinguishes between Malay (label my) and Indonesian (label id)\r\n- 'Portuguese':  Distinguishes between European (label pt-PT) and Brazilian Portuguese (label pt-BR)\r\n- 'Slavic': Distinguishes between Serbian (label sr), Croatian (label hr) and Bosnian (label bs)\r\n- 'Spanish':  Distinguishes between Castialian (label es-ES), Peruvian (label es-PE) and Argentine Spanish (label es-AR)\r\n\r\n\r\n", 
-      "static_image": "", 
-      "action": "language_variety_classification", 
-      "visualization_view": "", 
-      "streaming_visualization_view": "", 
-      "post_interact_action": "", 
-      "wsdl_method": "", 
-      "wsdl": "", 
-      "interactive": false, 
-      "is_streaming": false, 
-      "order": 1, 
-      "name": "Language Variety Classifier"
+      "name": "Language Variety Classifier",
+      "action": "language_variety_classification",
+      "wsdl": "",
+      "wsdl_method": "",
+      "description": "This widget predicts the language variety of the text. It takes dataframe as an input and it outputs a dataframe with an additional column containing gender predictions.\r\n\r\nIt can distinguish between following languages/language groups according to the value of the chosen 'language' option:\r\n\r\n-'all': Distinguishes between Farsi (label fa), French (label fr), Malay and Indonesian (label idmy), Portuguese (label pt),  \r\n  Slavic (label slavic) and Spanish (label es)\r\n- 'Farsi':  Distinguishes between 'Persian' (label fa-IR) and 'Dari' (label fa-AF)\r\n- 'French':  Distinguishes between Hexagonal (label fr-FR) and Canadian French (label fr-CA)\r\n- 'Malay and Indonesian':  Distinguishes between Malay (label my) and Indonesian (label id)\r\n- 'Portuguese':  Distinguishes between European (label pt-PT) and Brazilian Portuguese (label pt-BR)\r\n- 'Slavic': Distinguishes between Serbian (label sr), Croatian (label hr) and Bosnian (label bs)\r\n- 'Spanish':  Distinguishes between Castialian (label es-ES), Peruvian (label es-PE) and Argentine Spanish (label es-AR)\r\n\r\n\r\n",
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c",
+      "visualization_view": "",
+      "streaming_visualization_view": "",
+      "interactive": false,
+      "interaction_view": "",
+      "post_interact_action": "",
+      "image": "",
+      "treeview_image": "",
+      "static_image": "",
+      "has_progress_bar": false,
+      "is_streaming": false,
+      "order": 1,
+      "uid": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "package": "nlp",
+      "always_save_results": false,
+      "windows_queue": false
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractinput", 
+    "model": "workflows.abstractinput",
     "fields": {
-      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "name": "Output column name", 
-      "short_name": "out", 
-      "default": "predictions", 
-      "description": "Name of the output column containing language variety labels", 
-      "required": false, 
-      "multi": false, 
-      "parameter_type": "text", 
-      "variable": "output_name", 
-      "parameter": true, 
-      "order": 1, 
+      "name": "Output column name",
+      "short_name": "out",
+      "description": "Name of the output column containing language variety labels",
+      "variable": "output_name",
+      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "required": false,
+      "parameter": true,
+      "multi": false,
+      "default": "predictions",
+      "parameter_type": "text",
+      "order": 1,
       "uid": "1e2ede18-1af4-413c-92db-2b36788de892"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractinput", 
+    "model": "workflows.abstractinput",
     "fields": {
-      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "name": "Text Column", 
-      "short_name": "col", 
-      "default": "text", 
-      "description": "Name of the column in the dataframe that contains the text for which you wish to predict language/language variety", 
-      "required": false, 
-      "multi": false, 
-      "parameter_type": "text", 
-      "variable": "column", 
-      "parameter": true, 
-      "order": 2, 
+      "name": "Text Column",
+      "short_name": "col",
+      "description": "Name of the column in the dataframe that contains the text for which you wish to predict language/language variety",
+      "variable": "column",
+      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "required": false,
+      "parameter": true,
+      "multi": false,
+      "default": "text",
+      "parameter_type": "text",
+      "order": 2,
       "uid": "3055a6a1-3de6-4001-9733-e5523ba7178e"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractinput", 
+    "model": "workflows.abstractinput",
     "fields": {
-      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "name": "Dataframe", 
-      "short_name": "df", 
-      "default": "", 
-      "description": "Corpus in the form of Pandas dataframe", 
-      "required": true, 
-      "multi": false, 
-      "parameter_type": null, 
-      "variable": "dataframe", 
-      "parameter": false, 
-      "order": 4, 
+      "name": "Dataframe",
+      "short_name": "df",
+      "description": "Corpus in the form of Pandas dataframe",
+      "variable": "dataframe",
+      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "required": true,
+      "parameter": false,
+      "multi": false,
+      "default": "",
+      "parameter_type": null,
+      "order": 4,
       "uid": "81ab4a40-ed75-4c5c-84eb-f152f12b72e7"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractinput", 
+    "model": "workflows.abstractinput",
     "fields": {
-      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "name": "Language", 
-      "short_name": "lan", 
-      "default": "all", 
-      "description": "", 
-      "required": false, 
-      "multi": false, 
-      "parameter_type": "select", 
-      "variable": "lang", 
-      "parameter": true, 
-      "order": 3, 
+      "name": "Language",
+      "short_name": "lan",
+      "description": "",
+      "variable": "lang",
+      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "required": false,
+      "parameter": true,
+      "multi": false,
+      "default": "all",
+      "parameter_type": "select",
+      "order": 3,
       "uid": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoutput", 
+    "model": "workflows.abstractoutput",
     "fields": {
-      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772", 
-      "name": "Dataframe", 
-      "short_name": "df", 
-      "description": "Corpus in the form of Pandas dataframe", 
-      "variable": "df", 
-      "order": 1, 
+      "name": "Dataframe",
+      "short_name": "df",
+      "description": "Corpus in the form of Pandas dataframe",
+      "variable": "df",
+      "widget": "3c7a62d5-8f48-4c82-84f1-9ce5e2738772",
+      "order": 1,
       "uid": "49833cbd-fa49-4516-9d9e-3949ebd161a0"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "Malay and Indonesian", 
-      "uid": "1a4281d6-bfaf-41b4-a88b-0a1141ed42d9", 
-      "value": "idmy", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "Malay and Indonesian",
+      "value": "idmy",
+      "uid": "1a4281d6-bfaf-41b4-a88b-0a1141ed42d9"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "All", 
-      "uid": "2d73d93c-4b34-4165-9618-198122d49010", 
-      "value": "all", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "All",
+      "value": "all",
+      "uid": "2d73d93c-4b34-4165-9618-198122d49010"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "Farsi", 
-      "uid": "58748089-67dc-43db-97b8-b5187b10fe31", 
-      "value": "fa", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "Farsi",
+      "value": "fa",
+      "uid": "58748089-67dc-43db-97b8-b5187b10fe31"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "French", 
-      "uid": "82f0f205-ccb6-4673-a87b-60efb2f5441e", 
-      "value": "fr", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "French",
+      "value": "fr",
+      "uid": "82f0f205-ccb6-4673-a87b-60efb2f5441e"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "Spanish", 
-      "uid": "d613f62d-2836-4b22-a026-a3b351f279b9", 
-      "value": "es", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "Spanish",
+      "value": "es",
+      "uid": "d613f62d-2836-4b22-a026-a3b351f279b9"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "Slavic", 
-      "uid": "e8d4202c-c390-43fa-93db-69b3a24db61c", 
-      "value": "slavic", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "Slavic",
+      "value": "slavic",
+      "uid": "e8d4202c-c390-43fa-93db-69b3a24db61c"
     }
-  }, 
+  },
   {
-    "model": "workflows.abstractoption", 
+    "model": "workflows.abstractoption",
     "fields": {
-      "name": "Portuguese", 
-      "uid": "f20ff8f3-ffb2-44e9-946e-41d3de47b214", 
-      "value": "pt", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2",
+      "name": "Portuguese",
+      "value": "pt",
+      "uid": "f20ff8f3-ffb2-44e9-946e-41d3de47b214"
     }
   }
 ]
