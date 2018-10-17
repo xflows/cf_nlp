@@ -1,5 +1,7 @@
 import pandas as pd
-
+#import os
+from nltk.tag import pos_tag
+from nltk.tokenize.treebank import TreebankWordTokenizer
 
 def load_corpus_from_csv(input_dict):
     import gc
@@ -27,23 +29,44 @@ def select_corpus_attribute(input_dict):
     return {'attribute': column}
 
 
+def nltk_tokenizer(input_dict):
+    """Prejme seznam stringov, ki jih nato tokenizira z nltk-jevim vgrajenim tokenizatorjem
+    Treebank (glej https://www.nltk.org/api/nltk.tokenize.html). Vrne dataframe z izvirnimi
+    povedmi in tokeniziranimi povedmi."""
+    list_of_sentences = input_dict['attribute']
+    tokenizer = TreebankWordTokenizer()
+    tokens = []
+    for sent in list_of_sentences:
+        tokens.append(tokenizer.tokenize(sent))
+    print(tokens)
+    sentences = {'text': list_of_sentences, 'tokens': tokens}
+    df = pd.DataFrame(sentences)
+    print(df)
+    return {'tokens': df}
 
 
-        
+def nltk_pos_tagger(input_dict):
+    """Prejme dataframe z dvema stolpcema, ki vsebujeta izvirne povedi in tokenizirane povedi. Vrne
+    dataframe s tremi stolpci, v tretjem stolpcu so shranjeni tagi za vsak stolpec. Uporabljen je
+    priporočeni tagger iz knjižnice nltk."""
+    df_tokenized_sentences = input_dict['tokens']
+    tagged_sents = []
+    for index, row in df_tokenized_sentences.iterrows():
+        tagged_sents.append(pos_tag(row['tokens']))
 
-        
+    # razpakiranje terk (token,tag) v seznam s tagi
+    for list in tagged_sents[:]:
+        tag_list = []
+        if list:
+            for tag_tuple in list:
+                tag_list.append(tag_tuple[1])
+        tagged_sents.remove(list)
+        tagged_sents.append(tag_list)
 
-
-
-
-
-
-
-                       
-
-
-        
-
-
-    
-    
+    # pakiranje seznamov s tagi v dataframe
+    tagged_sents_series = pd.Series(tagged_sents, name='tags')
+    df_tags = pd.DataFrame(tagged_sents_series)
+    print(df_tags)
+    df_tokenized_sentences = df_tokenized_sentences.join(df_tags)
+    print(df_tokenized_sentences)
+    return {'tagged_sents': df_tokenized_sentences}
