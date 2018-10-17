@@ -20,6 +20,12 @@ Please note that because of package size limits the pypi packgage does not inclu
 
 * http://kt.ijs.si/matej_martinc/cf_nlp-0.0.16-py2-none-any.whl
 
+In order to use the NLTK tagger widget, you have to download the following model separately using the 'nltk.download()' command:
+
+* averaged perceptron tagger
+
+For additional instructions, see: https://www.nltk.org/data.html
+
 Please find other installation instructions, examples and API reference on [Read the Docs](http://clowdflows.readthedocs.io/).
 
 ## Note ##
@@ -30,6 +36,6 @@ Pull requests and issues are welcome.
 
 ## Contributors to the cf_nlp package code ##
 
-Matej Martinc (@matejMartinc)
+Matej Martinc (@matejMartinc), Andraž Pelicon (@PeliconA)
 
 * [Knowledge Technologies Department](http://kt.ijs.si), Jožef Stefan Institute, Ljubljana
