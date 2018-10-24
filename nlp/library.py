@@ -43,13 +43,12 @@ def nltk_tokenizer(input_dict):
 
 
 def nltk_pos_tagger(input_dict):
-    """Prejme dataframe z dvema stolpcema, ki vsebujeta izvirne povedi in tokenizirane povedi. Vrne
-    dataframe s tremi stolpci, v tretjem stolpcu so shranjeni tagi za vsak stolpec. Uporabljen je
-    priporočeni tagger iz knjižnice nltk."""
-    df_tokenized_sentences = input_dict['tokens']
+    """Prejme seznam tokeniziranih povedi. Vrne seznam tagov za vsako tokenizirano poved.
+    Uporabljen je priporočeni tagger iz knjižnice nltk."""
+    tokenized_sentences = input_dict['tokens']
     tagged_sents = []
-    for index, row in df_tokenized_sentences.iterrows():
-        tagged_sents.append(pos_tag(row['tokens']))
+    for sentence in tokenized_sentences:
+        tagged_sents.append(pos_tag(sentence))
 
     # razpakiranje terk (token,tag) v seznam s tagi
     for list in tagged_sents[:]:
@@ -60,13 +59,8 @@ def nltk_pos_tagger(input_dict):
         tagged_sents.remove(list)
         tagged_sents.append(tag_list)
 
-    # pakiranje seznamov s tagi v dataframe
-    tagged_sents_series = pd.Series(tagged_sents, name='tags')
-    df_tags = pd.DataFrame(tagged_sents_series)
-    print(df_tags)
-    df_tokenized_sentences = df_tokenized_sentences.join(df_tags)
-    print(df_tokenized_sentences)
-    return {'tagged_sents': df_tokenized_sentences}
+    #print(tagged_sents)
+    return {'tagged_sents': tagged_sents}
 
 
 def affix_extractor(input_dict):
