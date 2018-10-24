@@ -98,3 +98,8 @@ def build_dataframe_from_columns(input_dict):
     df = df.transpose()
     df.columns = names
     return {'df': df}
+
+
+def concatenate_corpora(input_dict):
+    dfs = input_dict['dfs']
+    return {'df': pd.concat(dfs)}
