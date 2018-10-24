@@ -70,3 +70,29 @@ def nltk_pos_tagger(input_dict):
     df_tokenized_sentences = df_tokenized_sentences.join(df_tags)
     print(df_tokenized_sentences)
     return {'tagged_sents': df_tokenized_sentences}
+
+
+def affix_extractor(input_dict):
+    corpus = input_dict['corpus']
+    affixes_tokens = []
+    affix_type = input_dict['affix_type']
+    affix_length = int(input_dict['affix_length'])
+    punct = '#@!"$%&()*+,-./:;<=>?[\]^_`{|}~' + "'"
+    for text in corpus:
+        if affix_type == 'suffix':
+            affixes = " ".join([word[-affix_length:] for word in text.split() if len(word) >= affix_length])
+        elif affix_type == 'prefix':
+            affixes = " ".join([word[0:affix_length] for word in text.split() if len(word) >= affix_length])
+        else:
+            ngrams = []
+            for i, character in enumerate(text[0:-affix_length - 1]):
+                ngram = text[i:i+affix_length]
+                if ngram[0] in punct:
+                    for p in punct:
+                        if p in ngram[1:]:
+                            break
+                    else:
+                       ngrams.append(ngram)
+            affixes = "###".join(ngrams)
+        affixes_tokens.append(affixes)
+    return {'affixes': affixes_tokens}
