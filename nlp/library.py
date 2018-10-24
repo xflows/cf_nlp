@@ -96,3 +96,14 @@ def affix_extractor(input_dict):
             affixes = "###".join(ngrams)
         affixes_tokens.append(affixes)
     return {'affixes': affixes_tokens}
+
+
+def build_dataframe_from_columns(input_dict):
+    columns = input_dict['corpus']
+    names = [str(name).strip() for name in input_dict['names'].split(',')]
+    if len(names) != len(columns):
+        names = ['Column_' + str(i+1) for i in range(len(columns))]
+    df = pd.DataFrame(columns)
+    df = df.transpose()
+    df.columns = names
+    return {'df': df}
