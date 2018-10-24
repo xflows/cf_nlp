@@ -31,18 +31,15 @@ def select_corpus_attribute(input_dict):
 
 def nltk_tokenizer(input_dict):
     """Prejme seznam stringov, ki jih nato tokenizira z nltk-jevim vgrajenim tokenizatorjem
-    Treebank (glej https://www.nltk.org/api/nltk.tokenize.html). Vrne dataframe z izvirnimi
-    povedmi in tokeniziranimi povedmi."""
+    Treebank (glej https://www.nltk.org/api/nltk.tokenize.html). Vrne seznam tokeniziranih
+    povedi."""
     list_of_sentences = input_dict['attribute']
     tokenizer = TreebankWordTokenizer()
     tokens = []
     for sent in list_of_sentences:
         tokens.append(tokenizer.tokenize(sent))
-    print(tokens)
-    sentences = {'text': list_of_sentences, 'tokens': tokens}
-    df = pd.DataFrame(sentences)
-    print(df)
-    return {'tokens': df}
+    #print(tokens)
+    return {'tokens': tokens}
 
 
 def nltk_pos_tagger(input_dict):
