@@ -147,3 +147,27 @@ def count_patterns(input_dict):
         if raw_frequency:
             return {'counts': sum(counts)}
         return {'counts': float(sum(counts))/whole_length}
+
+
+def emoji_sentiment(input_dict):
+    corpus = input_dict['corpus']
+    emoji_dict = {}
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
+    df_emojis = pd.read_csv(path, delimiter=",", encoding="utf-8")
+    for index, row in df_emojis.iterrows():
+        occurrences = float(row['Occurrences'])
+        pos = (float(row['Positive']) + 1) / (occurrences + 3)
+        neg = (float(row['Negative']) + 1) / (occurrences + 3)
+        sent = pos - neg
+        emoji_dict[row['Emoji']] = sent
+    sentiments = []
+    for doc in corpus:
+        sentiment = 0
+        l = emoji_dict.keys()
+        for pattern in l:
+            text_cnt = doc.count(pattern)
+            sentiment += float(emoji_dict[pattern]) * text_cnt
+        sentiments.append(sentiment)
+    return {'sentiments': sentiments}
+
