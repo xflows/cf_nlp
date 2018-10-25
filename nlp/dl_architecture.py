@@ -1,12 +1,13 @@
+import numpy as np
 from keras.layers import Conv1D
 from keras.models import Model
 from keras.layers import Input, Embedding, Dense, Dropout, Concatenate, BatchNormalization, MaxPooling1D, Flatten
 from keras.layers.merge import concatenate
-import numpy as np
+
 
 
 def build_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size):
-
+    
     # build model
     inputs = []
 
@@ -32,7 +33,7 @@ def build_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size):
 
 
 def build_general_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size):
-
+    
     # build model
     inputs = []
 

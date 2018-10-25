@@ -9,14 +9,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, Tf
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score
 import os
-import tensorflow as tf
 
 
 import numpy as np
 from dl_architecture import make_charvec, build_model, build_general_model
-from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, LearningRateScheduler
-from keras import backend as K
-from keras.utils import np_utils
 from sklearn.preprocessing import Normalizer
 from sklearn import pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -29,6 +25,8 @@ import string
 import math
 
 from collections import defaultdict
+from keras import backend as K
+from keras.utils.conv_utils import convert_kernel
 
 
 
@@ -76,15 +74,20 @@ def predict(data_test, column, lang, weights_path, data_path):
     charvec_test, _, _ = make_charvec(xtest.text_clean.tolist(), train=False, char_vocab=char_vocab, max_text_len=max_train_len_char)
     #print(charvec_test.shape)
 
-    with tf.Session(graph=tf.Graph()) as sess:
-        K.set_session(sess)
 
-        if lang != 'all':
-            model = build_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size)
-        else:
-            model = build_general_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size)
-        model.load_weights(weights_path)
+   
 
-        predictions = model.predict([feature_union_test, charvec_test]).argmax(axis=-1)
+    if lang != 'all':
+        model = build_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size)
+    else:
+        model = build_general_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size)
+    model.load_weights(weights_path)
+    for layer in model.layers:
+        if layer.__class__.__name__ in ['Convolution1D', 'Convolution2D']:
+            original_w = K.get_value(layer.W)
+            converted_w = convert_kernel(original_w)
+            K.set_value(layer.W, converted_w)
+
+    predictions = model.predict([feature_union_test, charvec_test]).argmax(axis=-1)
     return predictions, tags_to_idx
     
