@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.1.3',
+    version='0.1.4',
     packages=['nlp'],
     include_package_data=True,
     license='MIT License',
@@ -39,7 +39,7 @@ setup(
 		'marisa-trie==0.7.4',
 		'python-crfsuite==0.9',
 		'reldi==1.6',
-        'git+git://github.com/Theano/Theano.git --upgrade --no-deps',
+        'theano',
         'keras==2.2.2'
 
     ]

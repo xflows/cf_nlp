@@ -82,12 +82,6 @@ def predict(data_test, column, lang, weights_path, data_path):
     else:
         model = build_general_model(unigrams_shape, num_classes, charvec_shape, char_vocab_size)
     model.load_weights(weights_path)
-    for layer in model.layers:
-        if layer.__class__.__name__ in ['Convolution1D', 'Convolution2D']:
-            original_w = K.get_value(layer.W)
-            converted_w = convert_kernel(original_w)
-            K.set_value(layer.W, converted_w)
-
     predictions = model.predict([feature_union_test, charvec_test]).argmax(axis=-1)
     return predictions, tags_to_idx
     
