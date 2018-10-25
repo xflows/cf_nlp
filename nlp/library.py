@@ -1,5 +1,5 @@
 import pandas as pd
-#import os
+import os
 from nltk.tag import pos_tag
 from nltk.tokenize.treebank import TreebankWordTokenizer
 
@@ -103,3 +103,47 @@ def build_dataframe_from_columns(input_dict):
 def concatenate_corpora(input_dict):
     dfs = input_dict['dfs']
     return {'df': pd.concat(dfs)}
+
+
+def count_patterns(input_dict):
+    from itertools import groupby
+    corpus = input_dict['corpus']
+    mode = input_dict['mode']
+    wordlist = input_dict['custom'].split(',')
+    wordlist = [word.strip() for word in wordlist]
+    sum_all = input_dict['sum_all']
+    raw_frequency = input_dict['raw_frequency']
+    if mode == 'emojis':
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'emoji_dataset.csv')
+        df_emojis = pd.read_csv(path, encoding="utf-8", delimiter=",")
+        emoji_list = set(df_emojis['Emoji'].tolist())
+    counts = []
+    whole_length = 0
+    for doc in corpus:
+        doc_length = len(doc)
+        if doc_length == 0:
+            counts.append(0)
+            continue
+        cnt = 0
+        if mode == 'floods':
+            text = ''.join(doc.split())
+            groups = groupby(text)
+            for label, group in groups:
+                char_cnt = sum(1 for _ in group)
+                if char_cnt > 2:
+                    cnt += 1
+        elif mode == 'emojis':
+            for emoji in emoji_list:
+                cnt += doc.count(emoji)
+        else:
+            for word in wordlist:
+                cnt += doc.count(word)
+        counts.append(float(cnt)/doc_length) if not raw_frequency and not sum_all else counts.append(cnt)
+        whole_length += doc_length
+    if not sum_all:
+        return {'counts': counts}
+    else:
+        if raw_frequency:
+            return {'counts': sum(counts)}
+        return {'counts': float(sum(counts))/whole_length}
