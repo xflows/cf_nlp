@@ -171,3 +171,13 @@ def emoji_sentiment(input_dict):
         sentiments.append(sentiment)
     return {'sentiments': sentiments}
 
+
+def extract_true_and_predicted_labels(input_dict):
+    df = input_dict['dataframe']
+    true_values = input_dict['true_values']
+    predicted_values = input_dict['predicted_values']
+    true_values = df[true_values].tolist()
+    predicted_values = df[predicted_values].tolist()
+    return {'labels': [true_values, predicted_values]}
+
+
