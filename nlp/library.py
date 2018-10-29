@@ -3,6 +3,7 @@ import os
 from nltk.tag import pos_tag
 from nltk.tokenize.treebank import TreebankWordTokenizer
 
+
 def load_corpus_from_csv(input_dict):
     import gc
     separator = str(input_dict['separator'])
@@ -83,7 +84,7 @@ def affix_extractor(input_dict):
                         if p in ngram[1:]:
                             break
                     else:
-                       ngrams.append(ngram)
+                        ngrams.append(ngram)
             affixes = "###".join(ngrams)
         affixes_tokens.append(affixes)
     return {'affixes': affixes_tokens}
@@ -181,3 +182,27 @@ def extract_true_and_predicted_labels(input_dict):
     return {'labels': [true_values, predicted_values]}
 
 
+def filter_corpus(input_dict):
+    corpus = input_dict['dataframe']
+    query = input_dict['query']
+    if '>' in query:
+        query = query.split('>')
+        column_name, value = query[0].strip(), float(query[1].strip())
+        corpus = corpus[corpus[column_name] > value]
+    elif '<' in query:
+        query = query.split('<')
+        column_name, value = query[0].strip(), float(query[1].strip())
+        corpus = corpus[corpus[column_name] < value]
+    elif '==' in query:
+        query = query.split('==')
+        column_name, value = query[0].strip(), query[1].strip()
+        corpus = corpus[corpus[column_name] == value]
+    elif '!=' in query:
+        query = query.split('!=')
+        column_name, value = query[0].strip(), query[1].strip()
+        corpus = corpus[corpus[column_name] != value]
+    elif 'in' in query:
+        query = query.split(' in ', 1)
+        value, column_name = query[0].strip(), query[1].strip()
+        corpus = corpus[corpus[column_name].str.contains(value)]
+    return {'dataframe': corpus}
