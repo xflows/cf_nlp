@@ -235,6 +235,17 @@ def group_by_column(input_dict):
     df_grouped = pd.DataFrame(df_list)
     return {'df': df_grouped}
 
+
+def remove_punctuation(input_dict):
+    corpus = input_dict['corpus']
+    punctuation = '#@!"$%&()*+,-./:;<=>?[\]^_`{|}~' + "'"
+    cleaned_docs = []
+    for doc in corpus:
+        for p in punctuation:
+            doc = doc.replace(p, "")
+        cleaned_docs.append(doc)
+    return {'corpus': cleaned_docs}
+
 #def gender_classification(input_dict):
 #    from gender_classification import preprocess, createFeatures, simplify_tag
 #    lang = input_dict['lang']
