@@ -206,3 +206,74 @@ def filter_corpus(input_dict):
         value, column_name = query[0].strip(), query[1].strip()
         corpus = corpus[corpus[column_name].str.contains(value)]
     return {'dataframe': corpus}
+
+
+def group_by_column(input_dict):
+    chosen_column = input_dict['column']
+    df = input_dict['df']
+    columns = df.columns.tolist()
+    #print(columns)
+    columns.remove(chosen_column)
+    group_dict = {}
+    for index, row in df.iterrows():
+        if row[chosen_column] not in group_dict:
+            chosen_column_dict = {}
+            for column in columns:
+                chosen_column_dict[column] = [row[column]]
+        else:
+            chosen_column_dict = group_dict[row[chosen_column]]
+            for column in columns:
+                chosen_column_dict[column].append(row[column])
+        group_dict[row[chosen_column]] = chosen_column_dict
+    df_list = []
+    for key, value in group_dict.items():
+        end_dict = {}
+        end_dict[chosen_column] = key
+        for column in columns:
+            end_dict[column] = " ".join([str(x) for x in value[column]]).replace('\n', ' ')
+        df_list.append(end_dict)
+    df_grouped = pd.DataFrame(df_list)
+    return {'df': df_grouped}
+
+#def gender_classification(input_dict):
+#    from gender_classification import preprocess, createFeatures, simplify_tag
+#    lang = input_dict['lang']
+#    df = input_dict['dataframe']
+#    column = input_dict['column']
+#    output_name = input_dict['output_name']
+#    corpus = df[column].tolist()
+#    folder_path = os.path.dirname(os.path.realpath(__file__))
+#    path = os.path.join(folder_path, 'models', 'gender_classification', 'lr_clf_' + lang + '_gender_python2.pkl')
+#    sys.modules['gender_classification'] = genclass
+
+    # get pos tags
+#    if lang == 'en':
+#        sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+#        pos_tags = PerceptronTagger()
+#    else:
+#        pos_tags = PerceptronTagger(load=False)
+#        if lang == 'es':
+#            sent_tokenizer = nltk.data.load('tokenizers/punkt/spanish.pickle')
+#            pos_tags.train(list(cess.tagged_sents()))
+#        elif lang == 'pt':
+#            sent_tokenizer = nltk.data.load('tokenizers/punkt/portuguese.pickle')
+#            tsents = floresta.tagged_sents()
+#            tsents = [[(w.lower(), simplify_tag(t)) for (w, t) in sent] for sent in tsents if sent]
+#            pos_tags.train(tsents)
+#        else:
+#            sent_tokenizer = None
+
+#    df_data = pd.DataFrame({'text': corpus})
+
+#    df_prep = preprocess(df_data, lang, pos_tags, sent_tokenizer)
+#    df_data = createFeatures(df_prep)
+
+#    X = df_data
+
+#    clf = joblib.load(path)
+#    y_pred_gender = clf.predict(X)
+
+#    df_results = pd.DataFrame({output_name: y_pred_gender})
+
+
+#    return {'df': pd.concat([df, df_results], axis=1)}
