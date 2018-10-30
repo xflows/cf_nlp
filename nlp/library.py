@@ -3,6 +3,7 @@ import os
 from nltk.tag import pos_tag
 from nltk.tokenize.treebank import TreebankWordTokenizer
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def load_corpus_from_csv(input_dict):
@@ -267,6 +268,40 @@ def remove_stopwords(input_dict):
         doc = [x.lower() for x in doc.split() if x.lower() not in stops]
         cleaned_docs.append(" ".join(doc))
     return {'corpus': cleaned_docs}
+
+
+def tfidf_tokenizer(text):
+    #hopefuly this sequence is not used in any document more than 3 times or tokenization will go horribly wrong :).
+    if text.count('###') > 3:
+        return text.split('###')
+    return text.split()
+
+
+def tfidf_vectorizer(input_dict):
+    corpus = input_dict['corpus']
+    lowercase = True if input_dict['low'] == 'true' else False
+    max_df = input_dict['max_df']
+    min_df = input_dict['min_df']
+    max_df = float(max_df) if '.' in max_df else int(max_df)
+    min_df = float(min_df) if '.' in min_df else int(min_df)
+    try:
+        max_features = int(input_dict['max_features'])
+    except:
+        max_features = None
+    smooth_idf = True if input_dict['smooth_idf'] == 'true' else False
+    sublinear_tf = True if input_dict['sublinear_tf'] == 'true' else False
+    min_ngram = int(input_dict['min_ngram'])
+    max_ngram = int(input_dict['max_ngram'])
+    analyzer = str(input_dict['analyzer'])
+
+    tfidf = TfidfVectorizer(tokenizer=tfidf_tokenizer, min_df=min_df, max_df=max_df, lowercase=lowercase,
+                                max_features=max_features, smooth_idf=smooth_idf, sublinear_tf=sublinear_tf,
+                                ngram_range=(min_ngram, max_ngram), analyzer=analyzer)
+    tfidf_vec = tfidf.fit_transform(corpus)
+    #print(tfidf_vec.toarray())
+
+    return {'tfidf': {'vectorizer': tfidf_vec, 'data': corpus}}
+
 
 #def gender_classification(input_dict):
 #    from gender_classification import preprocess, createFeatures, simplify_tag
