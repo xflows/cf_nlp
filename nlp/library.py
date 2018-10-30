@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from nltk.tag import pos_tag
 from nltk.tokenize.treebank import TreebankWordTokenizer
+from nltk.corpus import stopwords
 
 
 def load_corpus_from_csv(input_dict):
@@ -244,6 +245,27 @@ def remove_punctuation(input_dict):
         for p in punctuation:
             doc = doc.replace(p, "")
         cleaned_docs.append(doc)
+    return {'corpus': cleaned_docs}
+
+
+def remove_stopwords(input_dict):
+    lang = input_dict['lang']
+    corpus = input_dict['corpus']
+    cleaned_docs = []
+    if lang == 'es':
+        stops = set(stopwords.words("spanish"))
+    elif lang == 'en':
+        stops = set(stopwords.words("english"))
+    elif lang == 'pt':
+        stops = set(stopwords.words("portuguese"))
+    elif lang == 'sl':
+        folder_path = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(folder_path, 'models', 'stopwords_slo.txt')
+        with open(path) as f:
+            stops = set([str(line.strip().lower()) for line in f])
+    for doc in corpus:
+        doc = [x.lower() for x in doc.split() if x.lower() not in stops]
+        cleaned_docs.append(" ".join(doc))
     return {'corpus': cleaned_docs}
 
 #def gender_classification(input_dict):
