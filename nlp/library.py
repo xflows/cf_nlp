@@ -4,6 +4,7 @@ from nltk.tag import pos_tag
 from nltk.tokenize.treebank import TreebankWordTokenizer
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
+import re
 
 
 def load_corpus_from_csv(input_dict):
@@ -302,6 +303,24 @@ def tfidf_vectorizer(input_dict):
 
     return {'tfidf': {'vectorizer': tfidf_vec, 'data': corpus}}
 
+
+def tweet_clean(input_dict):
+    mode = input_dict['mode']
+    if mode == 'remove':
+        mention_replace_token, hashtag_replace_token, url_replace_token = '', '', ''
+    else:
+        mention_replace_token, hashtag_replace_token, url_replace_token = 'TWEETMENTION', 'HASHTAG', 'HTTPURL'
+    corpus = input_dict['corpus']
+    cleaned_docs = []
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    for doc in corpus:
+        doc = re.sub(r'(?:@[\w_]+)', mention_replace_token, doc)
+        doc = re.sub(r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", hashtag_replace_token, doc)
+        doc = re.sub(url_regex, url_replace_token, doc)
+        cleaned_docs.append(doc)
+
+    print(cleaned_docs)
+    return {'corpus': cleaned_docs}
 
 #def gender_classification(input_dict):
 #    from gender_classification import preprocess, createFeatures, simplify_tag
