@@ -1,0 +1,73 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "28afbde5-ed3b-4ec5-88c2-650bb7de15c9", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "Export terms to a one column Pandas dataframe.", 
+      "static_image": "nlp.png", 
+      "action": "export_terms", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Export terms"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "28afbde5-ed3b-4ec5-88c2-650bb7de15c9", 
+      "name": "Column name", 
+      "short_name": "nam", 
+      "default": "terms", 
+      "description": "Name of the term column", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "name", 
+      "parameter": true, 
+      "order": 1, 
+      "uid": "037a6e3e-7687-4f4a-953e-b34a01a15e65"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "28afbde5-ed3b-4ec5-88c2-650bb7de15c9", 
+      "name": "candidates", 
+      "short_name": "can", 
+      "default": "", 
+      "description": "", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "candidates", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "ffa34dee-9960-4aec-8148-30cc7607841c"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "28afbde5-ed3b-4ec5-88c2-650bb7de15c9", 
+      "name": "dataframe", 
+      "short_name": "df", 
+      "description": "Pandas dataframe with terms", 
+      "variable": "df", 
+      "order": 1, 
+      "uid": "0b3776ec-c03c-4b65-84e9-d48d698e0141"
+    }
+  }
+]

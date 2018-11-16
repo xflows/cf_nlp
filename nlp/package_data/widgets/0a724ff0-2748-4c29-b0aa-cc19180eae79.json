@@ -1,0 +1,151 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "This widgets takes two pandas dataframes containing columns with source and target  terms as input and return a dataframe containing  aligned terms. Source terms should be in English, target terms can be either Slovenian, English or Dutch (according to the value of the language parameter). Name of the columns containing source and target terms should be input as a parameter (default names are 'source' and 'target').", 
+      "static_image": "nlp.png", 
+      "action": "terminology_alignment", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Terminology alignment"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "target", 
+      "short_name": "tar", 
+      "default": "", 
+      "description": "Target language terms", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "tar", 
+      "parameter": false, 
+      "order": 2, 
+      "uid": "63de1772-5deb-414d-a972-98426ba6d492"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "Target name", 
+      "short_name": "tna", 
+      "default": "target", 
+      "description": "Name of target dataframe column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "target_name", 
+      "parameter": true, 
+      "order": 4, 
+      "uid": "9f46a1c8-d4e4-4f1d-92f1-96ca528b96ce"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "Source name", 
+      "short_name": "sna", 
+      "default": "source", 
+      "description": "Name of source dataframe column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "source_name", 
+      "parameter": true, 
+      "order": 3, 
+      "uid": "be3838ed-13a7-4402-aa5c-ae86130c5a86"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "source", 
+      "short_name": "src", 
+      "default": "", 
+      "description": "Source language terms", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "src", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "ca714041-4ffd-4dcb-a685-d447a5964d67"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "Term language", 
+      "short_name": "lan", 
+      "default": "sl", 
+      "description": "Target language", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "select", 
+      "variable": "language", 
+      "parameter": true, 
+      "order": 5, 
+      "uid": "eea1560c-e044-40f2-bfff-446a43be5639"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "Alignments", 
+      "short_name": "df", 
+      "description": "Aligned terms in dataframe", 
+      "variable": "df", 
+      "order": 1, 
+      "uid": "51206644-c004-437a-86bb-6e0338b28bf8"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Slovenian", 
+      "uid": "7b722428-1614-4e9b-b202-b2aae9ed6ec6", 
+      "value": "sl", 
+      "abstract_input": "eea1560c-e044-40f2-bfff-446a43be5639"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "French", 
+      "uid": "b63df16a-72ea-471b-8f05-bc2058d81db8", 
+      "value": "fr", 
+      "abstract_input": "eea1560c-e044-40f2-bfff-446a43be5639"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Dutch", 
+      "uid": "ba9ae95b-4664-4577-aa44-832bcc3fa7e5", 
+      "value": "nl", 
+      "abstract_input": "eea1560c-e044-40f2-bfff-446a43be5639"
+    }
+  }
+]

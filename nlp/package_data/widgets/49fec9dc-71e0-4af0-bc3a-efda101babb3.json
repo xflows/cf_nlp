@@ -1,0 +1,129 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "Widget for evaluating the alignment of bilingual terminology. As an input, it gets a dataframe with predicted alignments and a dataframe with true alignments. ", 
+      "static_image": "nlp.png", 
+      "action": "terminology_alignment_evaluation", 
+      "visualization_view": "terminology_alignment_evaluation", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Terminology alignment evaluation"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "True target name", 
+      "short_name": "ttn", 
+      "default": "target", 
+      "description": "Name of true dataframe source column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "true_target_name", 
+      "parameter": true, 
+      "order": 4, 
+      "uid": "1fbfee19-3389-442a-ae94-8a3f8f4c4a98"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "True source name", 
+      "short_name": "tsn", 
+      "default": "source", 
+      "description": "Name of true dataframe source column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "true_source_name", 
+      "parameter": true, 
+      "order": 3, 
+      "uid": "2687ed2d-b38a-48e2-bd5e-d5ee99b31dd8"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "Predicted target name", 
+      "short_name": "ptn", 
+      "default": "target", 
+      "description": "Name of predicted dataframe target column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "predicted_target_name", 
+      "parameter": true, 
+      "order": 6, 
+      "uid": "46453a1e-5803-4965-92de-50fb57d60e28"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "predicted", 
+      "short_name": "pre", 
+      "default": "", 
+      "description": "Predicted alignments dataframe", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "predicted", 
+      "parameter": false, 
+      "order": 2, 
+      "uid": "a7548c76-a692-43b2-996a-c889ec24a53e"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "Pridected source name", 
+      "short_name": "psn", 
+      "default": "source", 
+      "description": "Name of predicted dataframe source column", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "text", 
+      "variable": "predicted_source_name", 
+      "parameter": true, 
+      "order": 5, 
+      "uid": "b7614eba-bc9b-404d-a72d-7375e2cf3eb4"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
+      "name": "gold", 
+      "short_name": "tru", 
+      "default": "", 
+      "description": "True alignments dataframe", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "true", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "c9777f46-5b81-4791-9cd7-037a3b86f020"
+    }
+  }
+]
