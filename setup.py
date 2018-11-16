@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='cf_nlp',
-    version='0.1.4',
+    version='0.1.5',
     packages=['nlp'],
     include_package_data=True,
     license='MIT License',
@@ -40,7 +40,9 @@ setup(
 		'python-crfsuite==0.9',
 		'reldi==1.6',
         'theano',
-        'keras==2.2.2'
+        'keras==2.2.2',
+        'lemmagen==1.2.0',
+        'editdistance==0.4',
 
     ]
 )

@@ -672,6 +672,17 @@ def nlp_def_extraction_wnet2(input_dict):
     response = json.loads(response.content)[u'wnetDefSentResponse'][u'wnetDefSentResult']
     return {'sentences': response}
 
+
+def export_terms(input_dict):
+    terms = input_dict['candidates']
+    name = input_dict['name']
+    regex = r"\<\<([^>>]+)\>\>"
+    terms = re.findall(regex, terms)
+    terms = [[term] for term in terms]
+    df_terms = pd.DataFrame(terms, columns = [name])
+    return {'df': df_terms}
+
+
 def TEItoTab(text, doc_id=0):    
     mask1 = ["\tTOK\t", "\t", "\t\n"]
     pattern1 = "<w (type=\"unknown\")| lemma=\"(?P<lemma>.*?)\" ana=\"(?P<ana>.*?)\">(?P<value>.*?)</w>"
@@ -1388,6 +1399,73 @@ def extract_true_and_predicted_labels(input_dict):
     true_values = df[true_values].tolist()
     predicted_values = df[predicted_values].tolist()
     return {'labels': [true_values, predicted_values]}
+
+
+def terminology_alignment(input_dict):
+    from terminology import *
+    lang = input_dict['language']
+    src = input_dict['src']
+    tar = input_dict['tar']
+    source_column = input_dict['source_name']
+    target_column = input_dict['target_name']
+    source_name = source_column
+    target_name = target_column
+    if source_name == target_name:
+        source_name += " 1"
+        target_name += " 2"
+    src = list(src[source_column].values)
+    tar = list(tar[target_column].values)
+    src = [term.strip() for term in src if len(term.strip()) > 0]
+    tar = [term.strip() for term in tar if len(term.strip()) > 0]
+    df_test = build_manual_eval_set(src, tar)
+    folder_path = os.path.dirname(os.path.realpath(__file__))
+    giza = os.path.join(folder_path, 'models', 'terminology', 'giza_dict_en_' + lang + '.txt')
+    giza_reverse = os.path.join(folder_path, 'models', 'terminology', 'giza_dict_' + lang + '_en.txt')
+    train_path = os.path.join(folder_path, 'models', 'terminology', 'train_' + lang + '.csv')
+    df_train = pd.read_csv(train_path, encoding="utf8")
+    df_train = filterTrainSet(df_train, 200)
+    if lang == 'sl':
+        dd = arrangeLemmatizedData(giza)
+        dd_reversed = arrangeLemmatizedData(giza_reverse)
+        df_test = createLemmatizedFeatures(df_test, dd, dd_reversed)
+    else:
+        dd = arrangeData(giza)
+        dd_reversed = arrangeData(giza_reverse)
+        df_test = createFeatures(df_test, dd, dd_reversed)
+
+
+    y = df_train['label'].values
+    X = df_train.drop(['label'], axis=1)
+    lsvm = LinearSVC(C=10, fit_intercept=True)
+
+
+    features = [('cst', digit_col())]
+
+    clf = pipeline.Pipeline([
+        ('union', FeatureUnion(
+            transformer_list=features,
+            n_jobs=1
+        )),
+        ('scale', Normalizer()),
+        ('lsvm', lsvm)])
+
+    clf.fit(X, y)
+
+    y_pred = clf.predict(df_test)
+
+
+
+    result = pd.concat([df_test, pd.DataFrame(y_pred, columns=['prediction'])], axis=1)
+    result = result.loc[result['prediction'] == 1]
+    result = result[['src_term', 'tar_term']]
+    result = result.rename(index=str, columns={"src_term": source_name, "tar_term": target_name})
+    return {'df': result}
+
+
+def terminology_alignment_evaluation(input_dict):
+    return {}
+
+
 
 
 
