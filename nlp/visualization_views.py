@@ -187,11 +187,14 @@ def display_result(request,input_dict,output_dict,widget):
 def terminology_alignment_evaluation(request,input_dict,output_dict,widget):
     gold_df = input_dict['true']
     predicted_df = input_dict['predicted']
+    
     true_source_name = input_dict['true_source_name']
     true_target_name = input_dict['true_target_name']
     predicted_source_name = input_dict['predicted_source_name']
     predicted_target_name = input_dict['predicted_target_name']
-
+    gold_df['alignment'] = gold_df[true_source_name] + " " + gold_df[true_target_name]
+    predicted_df['alignment'] = predicted_df[predicted_source_name] + " " + predicted_df[predicted_target_name]
+   
     #build alignments
     gold_df['alignment'] = gold_df[true_source_name] + " " + gold_df[true_target_name]
     predicted_df['alignment'] = predicted_df[predicted_source_name] + " " + predicted_df[predicted_target_name]

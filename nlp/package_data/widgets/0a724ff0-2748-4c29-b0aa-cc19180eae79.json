@@ -96,7 +96,7 @@
     "model": "workflows.abstractinput", 
     "fields": {
       "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
-      "name": "Term language", 
+      "name": "Target language", 
       "short_name": "lan", 
       "default": "sl", 
       "description": "Target language", 

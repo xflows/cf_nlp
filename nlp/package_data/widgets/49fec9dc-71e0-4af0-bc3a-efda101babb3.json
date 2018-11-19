@@ -96,7 +96,7 @@
     "model": "workflows.abstractinput", 
     "fields": {
       "widget": "49fec9dc-71e0-4af0-bc3a-efda101babb3", 
-      "name": "Pridected source name", 
+      "name": "Predicted source name", 
       "short_name": "psn", 
       "default": "source", 
       "description": "Name of predicted dataframe source column", 

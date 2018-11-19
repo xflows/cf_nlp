@@ -1413,8 +1413,12 @@ def terminology_alignment(input_dict):
     if source_name == target_name:
         source_name += " 1"
         target_name += " 2"
-    src = list(src[source_column].values)
-    tar = list(tar[target_column].values)
+    try:
+        src = list(src[source_column].values)
+        tar = list(tar[target_column].values)
+    except:
+        raise ValueError('Wrong column name! Either column "' + source_column + '" or column "' + target_column + '" does not exist in input dataframe.' )
+
     src = [term.strip() for term in src if len(term.strip()) > 0]
     tar = [term.strip() for term in tar if len(term.strip()) > 0]
     df_test = build_manual_eval_set(src, tar)
@@ -1463,6 +1467,17 @@ def terminology_alignment(input_dict):
 
 
 def terminology_alignment_evaluation(input_dict):
+    gold_df = input_dict['true']
+    predicted_df = input_dict['predicted']
+    try:
+        true_source_name = input_dict['true_source_name']
+        true_target_name = input_dict['true_target_name']
+        predicted_source_name = input_dict['predicted_source_name']
+        predicted_target_name = input_dict['predicted_target_name']
+        gold_df['alignment'] = gold_df[true_source_name] + " " + gold_df[true_target_name]
+        predicted_df['alignment'] = predicted_df[predicted_source_name] + " " + predicted_df[predicted_target_name]
+    except:
+        raise ValueError('Wrong column names! Make sure column names in gold standard and predicted terminology lists are correctly defined as parameters.')
     return {}
 
 
