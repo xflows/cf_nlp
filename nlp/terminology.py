@@ -139,7 +139,7 @@ def percentageOfTranslatedWords(s, giza_dict):
             if target in term2:
                 counter+=1
                 break
-    return float(counter)/len(term1)
+    return float(counter)/float(len(term1))
 
 
 def percentageOfNotTranslatedWords(s, giza_dict):
@@ -161,7 +161,7 @@ def longestTranslatedUnitInPercentage(s, giza_dict):
                 break
         else:
             counter = 0
-    return float(max) / len(term1)
+    return float(max) / float(len(term1))
 
 
 def longestNotTranslatedUnitInPercentage(s, giza_dict):
@@ -179,7 +179,7 @@ def longestNotTranslatedUnitInPercentage(s, giza_dict):
             counter += 1
             if counter > max:
                 max = counter
-    return float(max) / len(term1)
+    return float(max) / float(len(term1))
 
 
 def isLemmatizedWordCovered(x, giza_dict, index):
@@ -188,11 +188,11 @@ def isLemmatizedWordCovered(x, giza_dict, index):
     for word, score in giza_dict[term_source_lemma.split()[index]]:
         if word in term_target_lemma.split():
             return 1
-    lcstr = float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / max(len(term_source_lemma.split()[index]), len(term_target_lemma))
-    lcsr = float(len(longest_common_subsequence(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / max(len(term_source_lemma.split()[index]), len(term_target_lemma))
-    dice = 2 * float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / (len(term_source_lemma.split()[index]) + len(term_target_lemma))
-    nwd = float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / min(len(term_source_lemma.split()[index]),len(term_target_lemma))
-    editDistance = 1 - (float(editdistance.eval(term_source_lemma.split()[index], term_target_lemma)) / max(len(term_source_lemma.split()[index]), len(term_target_lemma)))
+    lcstr = float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / float(max(len(term_source_lemma.split()[index]), len(term_target_lemma)))
+    lcsr = float(len(longest_common_subsequence(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / float(max(len(term_source_lemma.split()[index]), len(term_target_lemma)))
+    dice = 2 * float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / float((len(term_source_lemma.split()[index]) + len(term_target_lemma)))
+    nwd = float(len(longest_common_substring(term_source_lemma.split()[index] + '\t' + term_target_lemma))) / float(min(len(term_source_lemma.split()[index]),len(term_target_lemma)))
+    editDistance = 1 - (float(editdistance.eval(term_source_lemma.split()[index], term_target_lemma)) / float(max(len(term_source_lemma.split()[index]), len(term_target_lemma))))
     if max(lcstr, lcsr, dice, nwd, editDistance) > 0.7:
         return 1
     return 0
@@ -204,16 +204,11 @@ def isWordCovered(x, giza_dict, index):
     for word, score in giza_dict[term_source.split()[index]]:
         if word in term_target.split():
             return 1
-    lcstr = float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / max(
-        len(term_source.split()[index]), len(term_target))
-    lcsr = float(len(longest_common_subsequence(term_source.split()[index] + '\t' + term_target))) / max(
-        len(term_source.split()[index]), len(term_target))
-    dice = 2 * float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / (
-    len(term_source.split()[index]) + len(term_target))
-    nwd = float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / min(
-        len(term_source.split()[index]), len(term_target))
-    editDistance = 1 - (float(editdistance.eval(term_source.split()[index], term_target)) / max(
-        len(term_source.split()[index]), len(term_target)))
+    lcstr = float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / max(len(term_source.split()[index]), len(term_target))
+    lcsr = float(len(longest_common_subsequence(term_source.split()[index] + '\t' + term_target))) / max(len(term_source.split()[index]), len(term_target))
+    dice = 2 * float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / (len(term_source.split()[index]) + len(term_target))
+    nwd = float(len(longest_common_substring(term_source.split()[index] + '\t' + term_target))) / min(len(term_source.split()[index]), len(term_target))
+    editDistance = 1 - (float(editdistance.eval(term_source.split()[index], term_target)) / max(len(term_source.split()[index]), len(term_target)))
     if max(lcstr, lcsr, dice, nwd, editDistance) > 0.7:
         return 1
     return 0
@@ -225,7 +220,7 @@ def percentageOfCoverage(x, giza_dict):
     counter = 0
     for index in range(length):
         counter += isWordCovered(x, giza_dict, index)
-    return counter/length
+    return float(counter)/length
 
 
 def preprocess(text):
@@ -234,9 +229,9 @@ def preprocess(text):
 
 
 def transcribe(text, lang):
-    sl_repl = {'č':'ch', 'š':'sh', 'ž': 'zh'}
-    en_repl = {'x':'ks', 'y':'j', 'w':'v', 'q':'k'}
-    fr_repl = {'é':'e', 'à':'a', 'è':'e', 'ù':'u', 'â':'a', 'ê':'e', 'î':'i', 'ô':'o', 'û':'u', 'ç':'c', 'ë':'e', 'ï':'i', 'ü':'u'}
+    sl_repl = {u'č':u'ch', u'š':u'sh', u'ž': u'zh'}
+    en_repl = {u'x':u'ks', u'y':u'j', u'w':u'v', u'q':u'k'}
+    fr_repl = {u'é':u'e', u'à':u'a', u'è':u'e', u'ù':u'uu', u'â':u'a', u'ê':u'e', u'î':u'i', u'ô':u'o', u'û':u'u', u'ç':u'c', u'ë':u'e', u'ï':u'i', u'ü':u'u'}
     if lang == 'en':
         en_tr = [en_repl.get(item,item)  for item in list(text)]
         return "".join(en_tr).lower()
@@ -350,7 +345,6 @@ def createLemmatizedFeatures(data, giza_dict, giza_dict_reversed):
     data['tar_term_tr'] = data['tar_term'].map(lambda x: transcribe(x, 'sl'))
     data['term_pair_tr'] = data['src_term_tr'] + '\t' + data['tar_term_tr']
     data['term_pair'] = data['src_term'] + '\t' + data['tar_term']
-    #print(data['term_pair_tr'])
 
     data['longestCommonSubstringRatio'] = data['term_pair_tr'].map(lambda x: float(len(longest_common_substring(x))) / max(len(x.split('\t')[0]), len(x.split('\t')[1])))
     data['longestCommonSubsequenceRatio'] = data['term_pair_tr'].map(lambda x: float(len(longest_common_subsequence(x))) / max(len(x.split('\t')[0]), len(x.split('\t')[1])))
