@@ -1408,6 +1408,9 @@ def terminology_alignment(input_dict):
     tar = input_dict['tar']
     source_column = input_dict['source_name']
     target_column = input_dict['target_name']
+    cognates = input_dict['cognates']
+    cognates = True if cognates else False
+    print('cognates: ', cognates)
     source_name = source_column
     target_name = target_column
     if source_name == target_name:
@@ -1425,22 +1428,30 @@ def terminology_alignment(input_dict):
     folder_path = os.path.dirname(os.path.realpath(__file__))
     giza = os.path.join(folder_path, 'models', 'terminology', 'giza_dict_en_' + lang + '.txt')
     giza_reverse = os.path.join(folder_path, 'models', 'terminology', 'giza_dict_' + lang + '_en.txt')
-    train_path = os.path.join(folder_path, 'models', 'terminology', 'train_' + lang + '.csv')
+    if cognates:
+        train_path = os.path.join(folder_path, 'models', 'terminology', 'cognates_train_' + lang + '.csv')
+    else:
+        train_path = os.path.join(folder_path, 'models', 'terminology', 'train_' + lang + '.csv')
     df_train = pd.read_csv(train_path, encoding="utf8")
-    df_train = filterTrainSet(df_train, 200)
+    
+    df_train = filterTrainSet(df_train, 200, cognates=cognates)
     if lang == 'sl':
         dd = arrangeLemmatizedData(giza)
         dd_reversed = arrangeLemmatizedData(giza_reverse)
-        df_test = createLemmatizedFeatures(df_test, dd, dd_reversed)
+        df_test = createLemmatizedFeatures(df_test, dd, dd_reversed, cognates=cognates)
     else:
         dd = arrangeData(giza)
         dd_reversed = arrangeData(giza_reverse)
-        df_test = createFeatures(df_test, dd, dd_reversed)
+        df_test = createFeatures(df_test, dd, dd_reversed, cognates=cognates)
 
 
     y = df_train['label'].values
     X = df_train.drop(['label'], axis=1)
-    lsvm = LinearSVC(C=10, fit_intercept=True)
+    
+    if not cognates:
+        svm = LinearSVC(C=10, fit_intercept=True)
+    else:
+        svm = svm.SVC(C=10)
 
 
     features = [('cst', digit_col())]
@@ -1451,7 +1462,7 @@ def terminology_alignment(input_dict):
             n_jobs=1
         )),
         ('scale', Normalizer()),
-        ('lsvm', lsvm)])
+        ('svm', svm)])
 
     clf.fit(X, y)
 

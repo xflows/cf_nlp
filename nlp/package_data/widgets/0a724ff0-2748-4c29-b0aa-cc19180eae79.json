@@ -45,6 +45,23 @@
     "model": "workflows.abstractinput", 
     "fields": {
       "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
+      "name": "Maximize recall", 
+      "short_name": "rec", 
+      "default": "", 
+      "description": "Maximize recall on expense of some precison", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "checkbox", 
+      "variable": "cognates", 
+      "parameter": true, 
+      "order": 6, 
+      "uid": "92356012-0a29-4982-8593-a64dadaf00ed"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "0a724ff0-2748-4c29-b0aa-cc19180eae79", 
       "name": "Target name", 
       "short_name": "tna", 
       "default": "target", 

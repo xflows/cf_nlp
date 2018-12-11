@@ -9,6 +9,7 @@ import random
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import preprocessing
 from sklearn.svm import LinearSVC
+from sklearn import svm
 from sklearn import pipeline
 import math
 import argparse
@@ -22,7 +23,6 @@ import numpy as np
 import time
 import os
 from io import open as openio
-
 
 
 
@@ -46,7 +46,6 @@ def lemmatize(text, lemmatizer):
 def preprocess(text):
     tokens = word_tokenize(text)
     return " ".join(tokens).lower()
-
 
 
 def longest_common_substring(s):
@@ -126,7 +125,6 @@ def isLastWordTranslated(s, giza_dict):
             if term2.endswith(target):
                 return 1
     return 0
-
 
 
 def percentageOfTranslatedWords(s, giza_dict):
@@ -214,6 +212,39 @@ def isWordCovered(x, giza_dict, index):
     return 0
 
 
+def isWordCognate(s, idx):
+    terms = s.split('\t')
+    term_source_lemma, term_target_lemma = terms[0], terms[1]
+    word_source, word_target = term_source_lemma.split()[idx], term_target_lemma.split()[idx]
+    word_pair = word_source + '\t' + word_target
+    lcs = longest_common_substring(word_pair)
+    lgth = max(len(word_source), len(word_target))
+    if lgth > 3 and float(len(lcs))/lgth >= 0.7:
+        #print(s, lcs, lgth)
+        return 1
+    return 0
+
+
+def wordLengthMatch(x):
+    terms = x.split('\t')
+    term_source_lemma, term_target_lemma = terms[0], terms[1]
+    if len(term_source_lemma.split()) == len(term_target_lemma.split()):
+        return 1
+    return 0
+
+
+def sourceTermLength(x):
+    terms = x.split('\t')
+    term_source_lemma, _ = terms[0], terms[1]
+    return len(term_source_lemma.split())
+
+
+def targetTermLength(x):
+    terms = x.split('\t')
+    _, term_target_lemma = terms[0], terms[1]
+    return len(term_target_lemma.split())
+
+
 def percentageOfCoverage(x, giza_dict):
     terms = x.split('\t')
     length = len(terms[0].split())
@@ -242,11 +273,10 @@ def transcribe(text, lang):
         fr_tr = [fr_repl.get(item, item) for item in list(text)]
         return "".join(fr_tr).lower()
     else:
-        print ('unknown language for transcription')
+        print('unknown language for transcription')
 
 
-
-def createFeatures(data, giza_dict, giza_dict_reversed):
+def createFeatures(data, giza_dict, giza_dict_reversed, cognates=False):
     data['src_term'] = data['src_term'].map(lambda x: preprocess(x))
     data['tar_term'] = data['tar_term'].map(lambda x: preprocess(x))
     data['term_pair'] = data['src_term'] + '\t' + data['tar_term']
@@ -282,6 +312,10 @@ def createFeatures(data, giza_dict, giza_dict_reversed):
     data['term_pair_tr'] = data['src_term_tr'] + '\t' + data['tar_term_tr']
     data['term_pair'] = data['src_term'] + '\t' + data['tar_term']
 
+    if cognates:
+        data['isFirstWordCognate'] = data['term_pair_tr'].map(lambda x: isWordCognate(x, 0))
+        data['isLastWordCognate'] = data['term_pair_tr'].map(lambda x: isWordCognate(x, -1))
+
     data['longestCommonSubstringRatio'] = data['term_pair_tr'].map(
         lambda x: float(len(longest_common_substring(x))) / max(len(x.split('\t')[0]), len(x.split('\t')[1])))
     data['longestCommonSubsequenceRatio'] = data['term_pair_tr'].map(
@@ -301,6 +335,11 @@ def createFeatures(data, giza_dict, giza_dict_reversed):
     data['percentageOfNonCoverage'] = data['term_pair'].map(lambda x: 1 - percentageOfCoverage(x, giza_dict))
     data['diffBetweenCoverageAndNonCoverage'] = data['percentageOfCoverage'] - data['percentageOfNonCoverage']
 
+    if cognates:
+        data['wordLengthMatch'] = data['term_pair'].map(lambda x: wordLengthMatch(x))
+        data['sourceTermLength'] = data['term_pair'].map(lambda x: sourceTermLength(x))
+        data['targetTermLength'] = data['term_pair'].map(lambda x: targetTermLength(x))
+
     data['term_pair'] = data['tar_term'] + '\t' + data['src_term']
 
     data['isFirstWordCovered_reversed'] = data['term_pair'].map(lambda x: isWordCovered(x, giza_dict_reversed, 0))
@@ -318,7 +357,7 @@ def createFeatures(data, giza_dict, giza_dict_reversed):
 
 
 
-def createLemmatizedFeatures(data, giza_dict, giza_dict_reversed):
+def createLemmatizedFeatures(data, giza_dict, giza_dict_reversed, cognates=False):
     lemmatizer_en = Lemmatizer(dictionary=lemmagen.DICTIONARY_ENGLISH)
     data['src_term_lemma'] = data['src_term'].map(lambda x: lemmatize(x, lemmatizer_en))
     lemmatizer_sl = Lemmatizer(dictionary=lemmagen.DICTIONARY_SLOVENE)
@@ -346,6 +385,11 @@ def createLemmatizedFeatures(data, giza_dict, giza_dict_reversed):
     data['term_pair_tr'] = data['src_term_tr'] + '\t' + data['tar_term_tr']
     data['term_pair'] = data['src_term'] + '\t' + data['tar_term']
 
+    if cognates:
+        data['isFirstWordCognate'] = data['term_pair_tr'].map(lambda x: isWordCognate(x, 0))
+        data['isLastWordCognate'] = data['term_pair_tr'].map(lambda x: isWordCognate(x, -1))
+
+
     data['longestCommonSubstringRatio'] = data['term_pair_tr'].map(lambda x: float(len(longest_common_substring(x))) / max(len(x.split('\t')[0]), len(x.split('\t')[1])))
     data['longestCommonSubsequenceRatio'] = data['term_pair_tr'].map(lambda x: float(len(longest_common_subsequence(x))) / max(len(x.split('\t')[0]), len(x.split('\t')[1])))
     data['dice'] = data['term_pair_tr'].map(lambda x: (2 * float(len(longest_common_substring(x)))) / (len(x.split('\t')[0]) + len(x.split('\t')[1])))
@@ -359,6 +403,11 @@ def createLemmatizedFeatures(data, giza_dict, giza_dict_reversed):
     data['percentageOfCoverage'] = data['term_pair_lemma'].map(lambda x: percentageOfCoverage(x, giza_dict))
     data['percentageOfNonCoverage'] = data['term_pair_lemma'].map(lambda x: 1 -percentageOfCoverage(x, giza_dict))
     data['diffBetweenCoverageAndNonCoverage'] = data['percentageOfCoverage'] - data['percentageOfNonCoverage']
+
+    if cognates:
+        data['wordLengthMatch'] = data['term_pair'].map(lambda x: wordLengthMatch(x))
+        data['sourceTermLength'] = data['term_pair'].map(lambda x: sourceTermLength(x))
+        data['targetTermLength'] = data['term_pair'].map(lambda x: targetTermLength(x))
 
     data['term_pair_lemma'] = data['tar_term_lemma'] + '\t' + data['src_term_lemma']
 
@@ -437,16 +486,39 @@ def arrangeData(input):
     return dd
 
 
-def filterTrainSet(df, ratio):
+def filterTrainSet(df, ratio, cognates=False):
     df_pos = df[df['label'] == 1]
-    df_pos = df_pos[df_pos['isFirstWordTranslated'] == 1]
-    df_pos = df_pos[df_pos['isLastWordTranslated'] == 1]
-    df_pos = df_pos[df_pos['isFirstWordTranslated_reversed'] == 1]
-    df_pos = df_pos[df_pos['isLastWordTranslated_reversed'] == 1]
-    df_pos = df_pos[df_pos['percentageOfCoverage'] > 0.66]
-    df_pos = df_pos[df_pos['percentageOfCoverage_reversed'] > 0.66]
+    df_pos_dict = df_pos[df_pos['isFirstWordTranslated'] == 1]
+    df_pos_dict = df_pos_dict[df_pos['isLastWordTranslated'] == 1]
+    df_pos_dict = df_pos_dict[df_pos['isFirstWordTranslated_reversed'] == 1]
+    df_pos_dict = df_pos_dict[df_pos['isLastWordTranslated_reversed'] == 1]
+    df_pos_dict = df_pos_dict[df_pos['percentageOfCoverage'] > 0.66]
+    df_pos_dict = df_pos_dict[df_pos['percentageOfCoverage_reversed'] > 0.66]
+
+    df_pos_dict.reset_index(drop=True, inplace=True)
+
+    if cognates:
+        df_pos_cognate_1 = df_pos[df_pos['isFirstWordTranslated'] == 1]
+        df_pos_cognate_1 = df_pos_cognate_1[df_pos['isLastWordCognate'] == 1]
+
+        df_pos_cognate_2 = df_pos[df_pos['isLastWordTranslated'] == 1]
+        df_pos_cognate_2 = df_pos_cognate_2[df_pos['isFirstWordCognate'] == 1]
+
+        df_pos_cognate_3 = df_pos[df_pos['isFirstWordCognate'] == 1]
+        df_pos_cognate_3 = df_pos_cognate_3[df_pos['isLastWordCognate'] == 1]
+
+        df_pos_cognate_1.reset_index(drop=True, inplace=True)
+        df_pos_cognate_2.reset_index(drop=True, inplace=True)
+        df_pos_cognate_3.reset_index(drop=True, inplace=True)
+
+        df_pos = pd.concat([df_pos_dict, df_pos_cognate_1, df_pos_cognate_2, df_pos_cognate_3])
+        df_pos = df_pos.drop_duplicates()
+    else:
+        df_pos = df_pos_dict
 
     df_neg = df[df['label'] == 0].sample(frac=1, random_state=123)[:df_pos.shape[0] * ratio]
+    df_neg.reset_index(drop=True, inplace=True)
+
     df = pd.concat([df_pos, df_neg])
     return df
 
