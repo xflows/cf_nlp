@@ -1408,9 +1408,9 @@ def terminology_alignment(input_dict):
     tar = input_dict['tar']
     source_column = input_dict['source_name']
     target_column = input_dict['target_name']
+    num_terms = input_dict['max_terms']
     cognates = input_dict['cognates']
     cognates = True if cognates else False
-    print('cognates: ', cognates)
     source_name = source_column
     target_name = target_column
     if source_name == target_name:
@@ -1419,8 +1419,13 @@ def terminology_alignment(input_dict):
     try:
         src = list(src[source_column].values)
         tar = list(tar[target_column].values)
+        if num_terms != 'all':
+            src = src[:int(num_terms)]
+            tar = tar[:int(num_terms)]
     except:
         raise ValueError('Wrong column name! Either column "' + source_column + '" or column "' + target_column + '" does not exist in input dataframe.' )
+    if max(len(src), len(tar)) > 2000:
+        raise ValueError('Input source and target terminologies are too big. The maximum number of terms per language is 2000. Set "Max terms" parameter to 2000 to align only first 2000 terms.' )
 
     src = [term.strip() for term in src if len(term.strip()) > 0]
     tar = [term.strip() for term in tar if len(term.strip()) > 0]
