@@ -5,7 +5,7 @@
       "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
       "treeview_image": "", 
       "uid": "4414ef0d-4dde-46ee-ba7b-12da93daef15", 
-      "is_streaming": false, 
+      "windows_queue": false, 
       "package": "nlp", 
       "interaction_view": "", 
       "has_progress_bar": false, 
@@ -19,7 +19,7 @@
       "wsdl_method": "", 
       "wsdl": "", 
       "interactive": false, 
-      "windows_queue": false, 
+      "is_streaming": false, 
       "order": 1, 
       "name": "Term extraction2"
     }
@@ -73,6 +73,23 @@
       "parameter": true, 
       "order": 6, 
       "uid": "4157ba2d-6786-4446-9140-f74c25f383c8"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "4414ef0d-4dde-46ee-ba7b-12da93daef15", 
+      "name": "Max extracted terms", 
+      "short_name": "max", 
+      "default": "1000", 
+      "description": "Limit the number of extracted terms. Default is 1000 terms.", 
+      "required": false, 
+      "multi": false, 
+      "parameter_type": "select", 
+      "variable": "max_terms", 
+      "parameter": true, 
+      "order": 7, 
+      "uid": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
     }
   }, 
   {
@@ -150,10 +167,37 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
+      "name": "5.) 1500", 
+      "uid": "0386834b-5ba0-4b4e-9e89-ec0877820d26", 
+      "value": "1500", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "1.) 100", 
+      "uid": "166ae926-66fc-445a-a68a-42a1d21d934d", 
+      "value": "100", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
       "name": "Slovene", 
       "uid": "44c72eba-71c7-41dc-92db-b28ffb3baa08", 
       "value": "sl", 
       "abstract_input": "f10bc73d-9213-487d-bc87-e70f2febe60c"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "2.) 200", 
+      "uid": "528cbb24-e533-4d2b-9b48-f80045ccef28", 
+      "value": "200", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
     }
   }, 
   {
@@ -177,6 +221,15 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
+      "name": "7.) All", 
+      "uid": "9e2370c5-9922-40e5-96d8-5d72f742471c", 
+      "value": "all", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
       "name": "BNC", 
       "uid": "aa419fcf-68af-4a97-b8fc-43d1aa3d88b0", 
       "value": "bnc", 
@@ -186,10 +239,37 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
+      "name": "4.) 1000", 
+      "uid": "ae089e51-19a9-415e-88d3-e1358365c2ae", 
+      "value": "1000", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "3.) 500", 
+      "uid": "bfd988c6-2010-4fe4-9462-02191d964fe2", 
+      "value": "500", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
       "name": "KRES", 
       "uid": "d91f2f85-ccac-48b1-8975-780c2db80997", 
       "value": "kres", 
       "abstract_input": "073abc3f-1d53-4b42-9d52-2bf9521b3a5c"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "6.) 2000", 
+      "uid": "f60ca142-1456-4a25-b4b8-601b1ce631bd", 
+      "value": "2000", 
+      "abstract_input": "a087b98f-b6af-4ee8-b776-82adbc9d305a"
     }
   }
 ]
