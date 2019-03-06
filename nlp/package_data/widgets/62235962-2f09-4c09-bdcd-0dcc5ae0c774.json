@@ -1,0 +1,56 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "62235962-2f09-4c09-bdcd-0dcc5ae0c774", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "Perceptron POS tagger for English as implemented in the NLTK library. It takes a corpus of documents as input and returns tag sequences joined by empty space for every document.", 
+      "static_image": "tag_pos.png", 
+      "action": "perceptron_pos_tagger", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Perceptron POS tagger"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "62235962-2f09-4c09-bdcd-0dcc5ae0c774", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "default": "", 
+      "description": "Corpus", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "corpus", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "3946e9ed-8cdf-4183-b395-e099c0e98176"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "62235962-2f09-4c09-bdcd-0dcc5ae0c774", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "description": "Corpus", 
+      "variable": "corpus", 
+      "order": 1, 
+      "uid": "3db60e31-79da-421a-b62a-ad4bce8ee852"
+    }
+  }
+]

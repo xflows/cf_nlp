@@ -20,6 +20,7 @@ from sklearn.pipeline import FeatureUnion
 from sklearn import pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.svm import SVC
+from sklearn import preprocessing
 from nltk.corpus import stopwords
 import nltk
 from nltk.tag import PerceptronTagger
@@ -31,6 +32,8 @@ import sys
 import gender_classification as genclass
 import language_variety as varclass
 import sentiment_analysis as sentclass
+import lemmagen.lemmatizer
+from lemmagen.lemmatizer import Lemmatizer
 
 webservices_totrtale_url = "http://172.20.0.154/totrtale"
 webservice_def_ex_url = "http://172.20.0.154/definition"
@@ -1030,12 +1033,25 @@ def tfidf_vectorizer(input_dict):
 
 
 class Transformer(BaseEstimator, TransformerMixin):
-    def __init__(self, index):
-        self.index = index
+    def __init__(self, key):
+        self.key = key
     def fit(self, x, y=None):
         return self
     def transform(self, data_list):
-        return data_list[self.index]
+        return data_list[self.key]
+
+
+class DigitTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self, drop):
+        self.drop = drop
+    def fit(self, x, y=None):
+        return self
+    def transform(self, hd_searches):
+        d_col_drops= self.drop
+        #print(hd_searches.columns)
+        hd_searches = hd_searches.drop(d_col_drops,axis=1).values
+        scaler = preprocessing.MinMaxScaler().fit(hd_searches)
+        return scaler.transform(hd_searches)
 
 
 def feature_union(input_dict):
@@ -1045,18 +1061,26 @@ def feature_union(input_dict):
     vec_and_data = input_dict['features']
     features = []
     dataset = []
+    columns = []
+    digit_col = False
+    drop = []
     for i, instance in enumerate(vec_and_data):
+        column = 'feature' + str(i)
+        columns.append(column)
         try:
             vectorizer = instance['vectorizer']
             data = instance['data']
-            print(data)
+            #print(len(data))
             dataset.append(data)
-            feature = ('feature' + str(i), pipeline.Pipeline([('t' + str(i), Transformer(index=i)), ('f' + str(i), vectorizer)]))
+            feature = (column, pipeline.Pipeline([('t' + str(i), Transformer(key=column)), ('f' + str(i), vectorizer)]))
             features.append(feature)
+            drop.append(column)
         except:
-            feature = ('feature' + str(i), Transformer(index=i))
-            features.append(feature)
-            dataset.append(np.transpose(np.array([instance])))
+            digit_col = True
+            dataset.append(list(np.transpose(np.array([instance]))))
+    if digit_col:
+        feature = ('cst', DigitTransformer(drop=drop))
+        features.append(feature)
     weights_dict = {}
     if len(weights) > 1 and len(weights) == len(features):
         for i in range(len(weights)):
@@ -1064,13 +1088,16 @@ def feature_union(input_dict):
     else:
         for i in range(len(features)):
             weights_dict[features[i][0]] = 1.0
+
+    df = pd.DataFrame(dataset)
+    df = df.transpose()
+    df.columns = columns
+    #print("Shape: ", df.shape)
     
     
     featureUnion = FeatureUnion(transformer_list = features, transformer_weights = weights_dict)
-    featureUnion = featureUnion.fit(dataset).transform(dataset)
-    svm = SVC(kernel="linear")
-    svm.fit(featureUnion, y)
-    return {'matrix': {'data': featureUnion, 'target':y}}
+    #featureUnion = featureUnion.fit(dataset).transform(dataset)
+    return {'matrix': {'featureUnion': featureUnion, 'data': df, 'target':y}}
 
 
 def affix_extractor(input_dict):
@@ -1117,7 +1144,6 @@ def tweet_clean(input_dict):
 
 
 def remove_stopwords(input_dict):
-    sl_stops = []
     lang = input_dict['lang']
     corpus = input_dict['corpus']
     cleaned_docs = []
@@ -1136,6 +1162,39 @@ def remove_stopwords(input_dict):
         doc = [x.lower() for x in doc.split() if x.lower() not in stops]
         cleaned_docs.append(" ".join(doc))
     return {'corpus': cleaned_docs}
+
+
+def nltk_tokenizer(input_dict):
+    corpus = input_dict['corpus']
+    tokenized_docs = []
+    for doc in corpus:
+        words = [word for sent in nltk.sent_tokenize(doc) for word in nltk.word_tokenize(sent)]
+        tokenized_docs.append(" ".join(words))
+    return {'corpus': tokenized_docs}
+
+
+def perceptron_pos_tagger(input_dict):
+    corpus = input_dict['corpus']
+    tagger = PerceptronTagger()
+    pos_tagged_docs = []
+    for doc in corpus:
+        tokens = nltk.sent_tokenize(doc)
+        #use average perceptron tagger
+        tokens = [nltk.word_tokenize(token) for token in tokens]
+        text = tagger.tag_sents(tokens)
+        tagged_doc = " ".join(tag for sent in text for word, tag in sent)
+        pos_tagged_docs.append(tagged_doc)
+    return {'corpus': pos_tagged_docs}
+
+
+def lemmagen_lemmatizer(input_dict):
+    corpus = input_dict['corpus']
+    lemmatizer = Lemmatizer(dictionary=lemmagen.DICTIONARY_ENGLISH)
+    lemmatized_docs = []
+    for doc in corpus:
+        lemmas = [lemmatizer.lemmatize(word) for sent in nltk.sent_tokenize(doc) for word in nltk.word_tokenize(sent)]
+        lemmatized_docs.append(" ".join(lemmas))
+    return {'corpus': lemmatized_docs}
 
 
 def remove_punctuation(input_dict):

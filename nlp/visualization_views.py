@@ -67,7 +67,10 @@ def display_corpus_statistic(request, input_dict, output_dict, widget, narrow_do
     doc_lengths = []
     all_tokens = set()
     for doc in corpus:
-        doc = doc.split()
+        try:
+            doc = doc.split()
+        except:
+            doc = str(doc).split()
         doc_lengths.append(len(doc))
         for tok in doc:
             all_tokens.add(tok)
@@ -83,6 +86,10 @@ def display_corpus_statistic(request, input_dict, output_dict, widget, narrow_do
     if stat_type == 'frequency' or stat_type == 'dis_legomena' or stat_type == 'hapax_legomena':
         annotation_dict = {}
         for doc in corpus:
+            try:
+                doc.split()
+            except:
+                doc = str(doc)
             if doc.count('###') > 3:
                 annotations = doc.split('###')
             else:
@@ -179,8 +186,10 @@ def corpus_to_csv(request,input_dict,output_dict,widget):
 
 
 def display_result(request,input_dict,output_dict,widget):
-    score = input_dict['result']
-    result = {'accuracy': str(score.mean()), 'std': str(score.std())}
+    measure, l = input_dict['result']
+    print(measure)
+    print(l)
+    result = {'measure':measure, 'score': str(l.mean()), 'std': str(l.std())}
     return render(request, 'visualizations/display_result.html',{'widget':widget,'result':result})
 
 

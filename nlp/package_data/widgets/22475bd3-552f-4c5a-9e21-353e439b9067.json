@@ -1,0 +1,56 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "22475bd3-552f-4c5a-9e21-353e439b9067", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "Word tokenizer from the NLTK library. It takes untokenized text as input and returns tokenized text (word tokens are joined by empty space).", 
+      "static_image": "token.png", 
+      "action": "nltk_tokenizer", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "NLTK tokenizer"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "22475bd3-552f-4c5a-9e21-353e439b9067", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "default": "", 
+      "description": "Corpus", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "corpus", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "af6a5e6a-8f4f-45af-86e6-ea57609472e6"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "22475bd3-552f-4c5a-9e21-353e439b9067", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "description": "Corpus", 
+      "variable": "corpus", 
+      "order": 1, 
+      "uid": "0d1fd20f-ef8c-4382-8eeb-fbb7c1aa4047"
+    }
+  }
+]

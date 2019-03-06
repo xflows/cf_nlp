@@ -1,0 +1,56 @@
+[
+  {
+    "model": "workflows.abstractwidget", 
+    "fields": {
+      "category": "15acb469-c510-44f0-8330-60bfe11a463c", 
+      "treeview_image": "", 
+      "uid": "e6300698-abd9-4ba7-94b6-2a2cbf82c36e", 
+      "windows_queue": false, 
+      "package": "nlp", 
+      "interaction_view": "", 
+      "has_progress_bar": false, 
+      "image": "", 
+      "description": "Lemmagen lemmatizer for English text. It takes a text as an input and returns lemmatized text (lemmas joined by empty space).", 
+      "static_image": "stem.png", 
+      "action": "lemmagen_lemmatizer", 
+      "visualization_view": "", 
+      "streaming_visualization_view": "", 
+      "post_interact_action": "", 
+      "wsdl_method": "", 
+      "wsdl": "", 
+      "interactive": false, 
+      "is_streaming": false, 
+      "order": 1, 
+      "name": "Lemmagen lemmatizer"
+    }
+  }, 
+  {
+    "model": "workflows.abstractinput", 
+    "fields": {
+      "widget": "e6300698-abd9-4ba7-94b6-2a2cbf82c36e", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "default": "", 
+      "description": "Corpus", 
+      "required": true, 
+      "multi": false, 
+      "parameter_type": null, 
+      "variable": "corpus", 
+      "parameter": false, 
+      "order": 1, 
+      "uid": "4d666ce8-3fd6-4e36-9412-18701adcbbf9"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoutput", 
+    "fields": {
+      "widget": "e6300698-abd9-4ba7-94b6-2a2cbf82c36e", 
+      "name": "Corpus", 
+      "short_name": "cor", 
+      "description": "Corpus", 
+      "variable": "corpus", 
+      "order": 1, 
+      "uid": "4b2e8d70-6b4e-4ec0-ba24-d49e0b2ad5d7"
+    }
+  }
+]
