@@ -116,15 +116,6 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
-      "name": "Swiss German", 
-      "uid": "", 
-      "value": "sg", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
       "name": "Malay and Indonesian", 
       "uid": "1a4281d6-bfaf-41b4-a88b-0a1141ed42d9", 
       "value": "idmy", 
@@ -155,6 +146,24 @@
       "name": "French", 
       "uid": "82f0f205-ccb6-4673-a87b-60efb2f5441e", 
       "value": "fr", 
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Arabic", 
+      "uid": "d613f62d-2836-4b22-a026-a3b351f279b7", 
+      "value": "ar", 
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Swiss German", 
+      "uid": "d613f62d-2836-4b22-a026-a3b351f279b8", 
+      "value": "sg", 
       "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
     }
   }, 
