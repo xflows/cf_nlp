@@ -107,15 +107,6 @@
   {
     "model": "workflows.abstractoption", 
     "fields": {
-      "name": "Arabic", 
-      "uid": "", 
-      "value": "ar", 
-      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
-    }
-  }, 
-  {
-    "model": "workflows.abstractoption", 
-    "fields": {
       "name": "Malay and Indonesian", 
       "uid": "1a4281d6-bfaf-41b4-a88b-0a1141ed42d9", 
       "value": "idmy", 
