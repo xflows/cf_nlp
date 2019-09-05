@@ -1508,7 +1508,7 @@ def terminology_alignment(input_dict):
     else:
         dd = arrangeData(giza)
         dd_reversed = arrangeData(giza_reverse)
-        df_test = createFeatures(df_test, dd, dd_reversed, cognates=cognates)
+        df_test = createFeatures(df_test, dd, dd_reversed, lang, cognates=cognates)
 
 
     y = df_train['label'].values

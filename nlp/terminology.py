@@ -263,6 +263,7 @@ def transcribe(text, lang):
     sl_repl = {u'č':u'ch', u'š':u'sh', u'ž': u'zh'}
     en_repl = {u'x':u'ks', u'y':u'j', u'w':u'v', u'q':u'k'}
     fr_repl = {u'é':u'e', u'à':u'a', u'è':u'e', u'ù':u'uu', u'â':u'a', u'ê':u'e', u'î':u'i', u'ô':u'o', u'û':u'u', u'ç':u'c', u'ë':u'e', u'ï':u'i', u'ü':u'u'}
+    nl_repl = {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u', 'ï':'i', 'ü': 'u', 'ë':'e', 'ö':'o', 'à':'a', 'è':'e', 'ĳ':'ij'}
     if lang == 'en':
         en_tr = [en_repl.get(item,item)  for item in list(text)]
         return "".join(en_tr).lower()
@@ -272,11 +273,14 @@ def transcribe(text, lang):
     elif lang == 'fr':
         fr_tr = [fr_repl.get(item, item) for item in list(text)]
         return "".join(fr_tr).lower()
+    elif lang == 'nl':
+        nl_tr = [nl_repl.get(item, item) for item in list(text)]
+        return "".join(nl_tr).lower()
     else:
         print('unknown language for transcription')
 
 
-def createFeatures(data, giza_dict, giza_dict_reversed, cognates=False):
+def createFeatures(data, giza_dict, giza_dict_reversed, lang, cognates=False):
     data['src_term'] = data['src_term'].map(lambda x: preprocess(x))
     data['tar_term'] = data['tar_term'].map(lambda x: preprocess(x))
     data['term_pair'] = data['src_term'] + '\t' + data['tar_term']
