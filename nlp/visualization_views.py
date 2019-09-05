@@ -7,7 +7,7 @@ from django.shortcuts import render
 import nlp
 import nltk
 from nltk.collocations import *
-import pandas
+import pandas as pd
 import numpy as np
 
 def definition_sentences_viewer(request, input_dict, output_dict, widget):
@@ -55,6 +55,8 @@ def term_candidate_viewer(request, input_dict, output_dict, widget):
 
 def display_corpus_statistic(request, input_dict, output_dict, widget, narrow_doc='n'):
   
+    from mothra.settings import MEDIA_ROOT
+    from workflows.helpers import ensure_dir
     corpus = input_dict['corpus']
     stat_type = input_dict['stat_type']
     allAnnotations = 0
@@ -169,7 +171,20 @@ def display_corpus_statistic(request, input_dict, output_dict, widget, narrow_do
             title = "Trigram collocations"
         measure = 'PMI score'
 
-    return render(request, 'visualizations/corpus_statistics.html', {'widget': widget, 'data': [result_list, title, measure, general_stats], 'narrow_doc': narrow_doc})
+    if title == 'N-gram':
+        columns = ['N-gram', 'Raw frequency', 'Frequency']
+        df= pd.DataFrame(result_list, columns=columns)
+
+    if title != 'N-gram':
+        columns = [title, measure]
+        df= pd.DataFrame(result_list, columns=columns)
+    destination = MEDIA_ROOT+'/'+str(request.user.id)+'/'+str(widget.id)+'.csv'
+    ensure_dir(destination)
+    df.to_csv(destination, encoding='utf-8', sep=';', index=False)
+    filename = str(request.user.id)+'/'+str(widget.id)+'.csv'
+    output_dict['filename'] = filename
+
+    return render(request, 'visualizations/corpus_statistics.html', {'widget': widget, 'data': [result_list, title, measure, general_stats], 'narrow_doc': narrow_doc, 'output_dict':output_dict})
 
 
 def corpus_to_csv(request,input_dict,output_dict,widget):

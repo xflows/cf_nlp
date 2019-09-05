@@ -10,7 +10,7 @@
       "interaction_view": "", 
       "has_progress_bar": false, 
       "image": "", 
-      "description": "This widget predicts the language variety of the text. It takes dataframe as an input and it outputs a dataframe with an additional column containing gender predictions.\r\n\r\nIt can distinguish between following languages/language groups according to the value of the chosen 'language' option:\r\n\r\n-'all': Distinguishes between Farsi (label fa), French (label fr), Malay and Indonesian (label idmy), Portuguese (label pt),  \r\n  Slavic (label slavic) and Spanish (label es)\r\n- 'Farsi':  Distinguishes between 'Persian' (label fa-IR) and 'Dari' (label fa-AF)\r\n- 'French':  Distinguishes between Hexagonal (label fr-FR) and Canadian French (label fr-CA)\r\n- 'Malay and Indonesian':  Distinguishes between Malay (label my) and Indonesian (label id)\r\n- 'Portuguese':  Distinguishes between European (label pt-PT) and Brazilian Portuguese (label pt-BR)\r\n- 'Slavic': Distinguishes between Serbian (label sr), Croatian (label hr) and Bosnian (label bs)\r\n- 'Spanish':  Distinguishes between Castialian (label es-ES), Peruvian (label es-PE) and Argentine Spanish (label es-AR)\r\n\r\n\r\n", 
+      "description": "This widget predicts the language variety of the text. It takes dataframe as an input and it outputs a dataframe with an additional column containing gender predictions.\r\n\r\nIt can distinguish between following languages/language groups according to the value of the chosen 'language' option:\r\n\r\n-'all': Distinguishes between Farsi (label fa), French (label fr), Malay and Indonesian (label idmy), Portuguese (label pt),  \r\n  Slavic (label slavic) and Spanish (label es)\r\n- 'Farsi':  Distinguishes between 'Persian' (label fa-IR) and 'Dari' (label fa-AF)\r\n- 'French':  Distinguishes between Hexagonal (label fr-FR) and Canadian French (label fr-CA)\r\n- 'Malay and Indonesian':  Distinguishes between Malay (label my) and Indonesian (label id)\r\n- 'Portuguese':  Distinguishes between European (label pt-PT) and Brazilian Portuguese (label pt-BR)\r\n- 'Slavic': Distinguishes between Serbian (label sr), Croatian (label hr) and Bosnian (label bs)\r\n- 'Spanish':  Distinguishes between Castialian (label es-ES), Peruvian (label es-PE) and Argentine Spanish (label es-AR)\r\n- 'Swiss German': Distinguishes between Bern (label BE), Basel (label BS), Lucerne (label LU) and Zurich (label ZH) Swiss German dialects\r\n- 'Arabic': Distinguishes between Modern Standard Arabic (label MSA), Egyptian (label EGY), Gulf (label GLF), Levantine (label LAV) and North African (label NOR) Arabic dialects\r\n\r\n", 
       "static_image": "", 
       "action": "language_variety_classification", 
       "visualization_view": "", 
@@ -137,6 +137,24 @@
       "name": "French", 
       "uid": "82f0f205-ccb6-4673-a87b-60efb2f5441e", 
       "value": "fr", 
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Arabic", 
+      "uid": "d613f62d-2836-4b22-a026-a3b351f279b7", 
+      "value": "ar", 
+      "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
+    }
+  }, 
+  {
+    "model": "workflows.abstractoption", 
+    "fields": {
+      "name": "Swiss German", 
+      "uid": "d613f62d-2836-4b22-a026-a3b351f279b8", 
+      "value": "sg", 
       "abstract_input": "cc56970f-d875-47a0-a9f8-1ae2ecbab6f2"
     }
   }, 

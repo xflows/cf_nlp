@@ -1092,6 +1092,7 @@ def feature_union(input_dict):
     df = pd.DataFrame(dataset)
     df = df.transpose()
     df.columns = columns
+    #print(df.columns)
     #print("Shape: ", df.shape)
     
     
