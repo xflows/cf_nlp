@@ -40,7 +40,7 @@ setup(
 		'python-crfsuite==0.9',
 		'reldi==1.6',
         'theano',
-        'keras==2.2.2',
+        'keras==2.13.1',
         'lemmagen==1.2.0',
         'editdistance==0.4',
 
